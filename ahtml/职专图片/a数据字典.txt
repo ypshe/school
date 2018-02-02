@@ -1,0 +1,93 @@
+users用户表：
+	{
+	id:用户id,
+	name:用户名（js校验2-4个中文）,
+	password:密码,（6-18位）
+	remember_token:用户token,
+	create_at:创建时间,
+	updated_at:修改时间,
+	where:籍贯,（省市下拉框）
+	cardId:身份证号,（校验18位整数）
+	home:家庭住址,（省市区下拉框，详情增加文本框）
+	pic:头像,（文件框，能显示图片最好）
+	sex:性别,（radio）
+	political:政治面貌(党员，群众),（radio）
+	nationality:民族,（文本框）
+	phone:手机号,（文本框）（校验手机号）
+	openId:微信openId
+	}
+profession专业表：
+	{
+	id:专业id,
+	name:专业名,
+	sort:权重,
+	desc:简介,
+	price:报名价格,
+	grade:评分,
+	join_num:报名人数,
+	created_at:创建时间,
+	updated_at:修改时间
+	}
+Study:课程表：
+	{
+	id:课程id,
+	pid:专业id,
+	name:课程名,
+	tid:讲师id,
+	time:总学时,(分钟)
+	study_num:学习人数,
+	desc:课程简介,
+	created_at:创建时间,
+	updated_at:修改时间,
+	video_num:视频数,
+	pic:封面图,
+	section:章节(json)
+	}
+video:视频表
+	{
+	id:视频id,
+	sid:所属课程id,
+	url:视频地址,
+	name:名称,
+	sort:视频章节(越大越往后),
+	time:视频学时(秒),
+    see_num:已观看人数,
+	created_at:上传时间
+	}
+exams:题库表
+	{
+	id:题目id,
+	pid:所属专业id,
+	cid:所属课程id,
+	vid:所属视频id,（中间提问问题）
+	info:问题,
+	choose_1:选项1,
+	choose_2:选项2,
+	choose_3:选项3,
+	choose_4:选项4,
+	true:正确选项,
+	}
+study_notice:培训通告表
+work_news:工作动态表
+order:订单表
+payment:付款详情表
+error_docker:用户错题库
+buy_pro:用户购买课程表
+study_pro:用户学习课程表
+grade:成绩表
+file:上传文件表
+school_hours:学时表
+ask:问题表
+answer:回答表
+teacher:讲师表
+	{
+	id:讲师id,
+	name:讲师名（js校验2-4个中文）,
+	create_at:创建时间,
+	updated_at:修改时间,
+	pic:头像,（文件框，能显示图片最好）
+	sex:性别,（radio）
+	work:职位,
+	desc:简介
+	}
+manager后台管理员表：

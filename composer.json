@@ -13,6 +13,7 @@
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "maatwebsite/excel": "2.*",
+        "nwidart/laravel-modules": "^2.7",
         "overtrue/wechat": "~4.0"
     },
     "require-dev": {
@@ -28,8 +29,12 @@
             "database/factories"
         ],
         "psr-4": {
-            "App\\": "app/"
-        }
+            "App\\": "app/",
+            "Modules\\": "Modules/"
+        },
+        "files": [
+            "app/libary/FFmpeg.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

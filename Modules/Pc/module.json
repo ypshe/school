@@ -1,0 +1,16 @@
+{
+    "name": "Pc",
+    "alias": "pc",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Pc\\Providers\\PcServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}

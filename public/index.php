@@ -8,6 +8,9 @@
 
 define('LARAVEL_START', microtime(true));
 
+// 定义ffmpeg路径及命令常量
+define('FFMPEG_CMD', 'F:/ffmpeg/bin/ffmpeg -i "%s" 2>&1');
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
