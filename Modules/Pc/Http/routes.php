@@ -2,5 +2,5 @@
 
 Route::group(['middleware' => 'web', 'prefix' => 'pc', 'namespace' => 'Modules\Pc\Http\Controllers'], function()
 {
-    Route::get('/', 'PcController@index');
+    Route::get('/', 'IndexController@index');
 });

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-class PcController extends Controller
+class IndexController extends Controller
 {
     /**
      * Display a listing of the resource.
