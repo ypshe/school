@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-class IndexController extends Controller
+class ExamController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        return view('Pc.index');
+        return view('Pc.exam');
     }
 
     /**

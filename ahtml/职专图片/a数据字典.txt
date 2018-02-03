@@ -1,4 +1,4 @@
-users用户表：
+﻿users用户表：
 	{
 	id:用户id,
 	name:用户名（js校验2-4个中文）,
@@ -26,7 +26,8 @@ profession专业表：
 	grade:评分,
 	join_num:报名人数,
 	created_at:创建时间,
-	updated_at:修改时间
+	updated_at:修改时间,
+	uid:创建人id,
 	}
 Study:课程表：
 	{
@@ -41,7 +42,8 @@ Study:课程表：
 	updated_at:修改时间,
 	video_num:视频数,
 	pic:封面图,
-	section:章节(json)
+	section:章节(json),
+	uid:创建人id,
 	}
 video:视频表
 	{
@@ -51,8 +53,9 @@ video:视频表
 	name:名称,
 	sort:视频章节(越大越往后),
 	time:视频学时(秒),
-    see_num:已观看人数,
-	created_at:上传时间
+    	see_num:已观看人数,
+	created_at:上传时间,
+	uid:创建人id,
 	}
 exams:题库表
 	{
@@ -66,19 +69,112 @@ exams:题库表
 	choose_3:选项3,
 	choose_4:选项4,
 	true:正确选项,
+	uid:创建人id,
 	}
-study_notice:培训通告表
-work_news:工作动态表
+examLog:考题记录表
+	{
+	id:记录id，
+	uid:用户id,
+	time:考试时间,
+	file_token:文件记录token,(文件记录在storage/exam/$id.txt)
+	value:分数
+	}
+notices:培训通告表
+	{
+	id:通告id，
+	title:通告标题,
+	blurb:简介（limit30字节）
+	content:内容,
+	create_uid:创建人id，
+	created_at:创建时间,
+	updated_ad:更新时间,
+	visit_num:访问人数,
+	sort:排序权重,
+	showAuthor:作者名\发布人名,
+	uid:创建人id,
+	}
+works:工作动态表
+	{
+	id:动态id，
+	title:动态标题,
+	blurb:简介（limit30字节）
+	content:内容,
+	create_uid:创建人id，
+	created_at:创建时间,
+	updated_ad:更新时间,
+	visit_num:访问人数,
+	sort:排序权重,
+	showAuthor:作者名\发布人名,
+	uid:创建人id,
+	}
 order:订单表
 payment:付款详情表
-error_docker:用户错题库
+fail_exam:用户错题库
+	{
+	id:错题id,
+	uid:用户id,
+	eid:题目id,
+	choose:他的选项
+	created_at:创建时间
+	}
 buy_pro:用户购买课程表
+	{
+	id:表id,
+	pid:课程id,
+	uid:用户id,
+	orderId:订单id,
+	payId:付款详情表id，
+	created_at：创建时间,
+	status：状态（0未审核，1审核通过）
+	}
 study_pro:用户学习课程表
+	{
+	id:表id,
+	pid:课程id,
+	uid:用户id,
+	join_time：参与时间,
+	study_time：拥有学时，
+	
+	}
 grade:成绩表
-file:上传文件表
-school_hours:学时表
-ask:问题表
-answer:回答表
+	{
+	id:表id,
+	uid:用户id,
+	pid：课程id,
+	eid:考题id,
+	value:分数,
+	created_time:创建时间
+	}
+files:上传文件表
+	{
+	id:表id,
+	name:文件名,
+	src:地址,
+	uid:上传人id,
+	download_num:下载次数，
+	created_at:上传时间，
+	updated_at：修改时间
+	}
+study_hours:学时表
+	{
+	id:表id,
+	uid:用户id,
+	pid:课程id,
+	vid:视频id,
+	get_time:获取学时
+	created_at：创建时间
+	}
+asks:问题表
+	{
+	id:表id,
+	uid:提问人id,
+	content:问题内容,
+	created_at:提问时间,
+	status:状态（0未回答，1已回答，2废弃），
+	return：回复（），
+	sort:排序，（排序高展示在首页，为0则不展示）
+	returnMid：回复人id
+	}
 teacher:讲师表
 	{
 	id:讲师id,
@@ -88,6 +184,7 @@ teacher:讲师表
 	pic:头像,（文件框，能显示图片最好）
 	sex:性别,（radio）
 	work:职位,
-	desc:简介
+	desc:简介,
+	uid:创建人id,
 	}
 manager后台管理员表：
