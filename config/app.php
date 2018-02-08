@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'imgDir'=>'../storage/uploads/',
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -179,6 +179,7 @@ return [
         Encore\Admin\AdminServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
     ],
 
     /*
@@ -229,6 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
 
     ],
 

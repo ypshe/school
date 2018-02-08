@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/user';
 
     /**
      * Create a new controller instance.
@@ -48,11 +48,16 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'password' => 'required|string|min:6|confirmed',
+            'captcha' => 'required|captcha',
+            'cardId' => 'regex:/^\d{17}[0-9xX]{1}$/|alpha_num|required|unique:users,cardID',
+            'password' => 'required|string|min:6|max:18|confirmed'
+            ], [
+                'regex'=>'请输入正确格式的身份证号',
+                'alpha_num'=>'请输入正确格式的身份证号',
+                'unique'=>'身份证号已存在，请核实后再输入',
+                'captcha'=>'验证码错误',
         ]);
     }
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -62,9 +67,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'cardId' => $data['cardId'],
+            'password' => bcrypt($data['password'])
         ]);
     }
 }

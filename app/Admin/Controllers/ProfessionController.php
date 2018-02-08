@@ -105,11 +105,11 @@ class ProfessionController extends Controller
                     'regex' => '请输入正确的专业名称，必须为汉字',
                     'required'=>'请输入专业名称'
                 ]);
-            $form->text('grade', '专业评分')
-                ->rules('required|regex:/^\d+\.(\d{1})$/',[
-                    'regex' => '请输入正确的专业评分，如：9.8',
-                    'required'=>'请输入专业名称'
-                ])->placeholder('请输入专业评分，格式小于10的一位小数，如9.8');
+//            $form->text('grade', '专业评分')
+//                ->rules('required|regex:/^\d+\.(\d{1})$/',[
+//                    'regex' => '请输入正确的专业评分，如：9.8',
+//                    'required'=>'请输入专业评分'
+//                ])->placeholder('请输入专业评分，格式小于10的一位小数，如9.8');
             $form->text('sort', '专业权重')
                 ->rules('required|regex:/^\d+$/',[
                     'regex' => '请输入正确的专业权重，如：3',
@@ -121,6 +121,7 @@ class ProfessionController extends Controller
                     'required'=>'专业权重'
                 ])->placeholder('请输入报名价格，格式为整数');
             $form->image('pic', '专业封面图')->resize('262','161');
+            $form->image('icon', '专业图标')->resize('16','16');
             $form->textarea('desc', '专业简介')
                 ->rules('required',[
                     'required' => '请输入专业简介',

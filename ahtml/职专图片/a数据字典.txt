@@ -109,13 +109,13 @@ works:工作动态表
 	}
 order:订单表
 payment:付款详情表
-fail_exam:用户错题库
+error_exams:用户错题库
 	{
 	id:错题id,
 	uid:用户id,
 	eid:题目id,
-	choose:他的选项
-	created_at:创建时间
+	error:他的选项
+	created_time:创建时间
 	}
 buy_pro:用户购买课程表
 	{

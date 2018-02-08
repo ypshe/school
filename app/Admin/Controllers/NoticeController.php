@@ -1,0 +1,112 @@
+<?php
+
+namespace App\Admin\Controllers;
+
+use App\Admin\Model\Notice;
+use App\Admin\Model\User;
+use Encore\Admin\Controllers\AuthController;
+use Encore\Admin\Form;
+use Encore\Admin\Grid;
+use Encore\Admin\Facades\Admin;
+use Encore\Admin\Layout\Content;
+use App\Http\Controllers\Controller;
+use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Support\Facades\DB;
+
+class NoticeController extends Controller
+{
+    use ModelForm;
+
+    /**
+     * Index interface.
+     *
+     * @return Content
+     */
+    public function index()
+    {
+        return Admin::content(function (Content $content) {
+
+            $content->header('通知公告');
+            $content->description('列表');
+
+            $content->body($this->grid());
+        });
+    }
+
+    /**
+     * Edit interface.
+     *
+     * @param $id
+     * @return Content
+     */
+    public function edit($id)
+    {
+        return Admin::content(function (Content $content) use ($id) {
+
+            $content->header('通知公告');
+            $content->description('修改');
+
+            $content->body($this->form()->edit($id));
+        });
+    }
+
+    /**
+     * Create interface.
+     *
+     * @return Content
+     */
+    public function create()
+    {
+        return Admin::content(function (Content $content) {
+
+            $content->header('通知公告');
+            $content->description('新增');
+
+            $content->body($this->form());
+        });
+    }
+
+    /**
+     * Make a grid builder.
+     *
+     * @return Grid
+     */
+    protected function grid()
+    {
+        return Admin::grid(Notice::class, function (Grid $grid) {
+
+            $grid->id('ID')->sortable();
+            $grid->title('公告标题');
+            $grid->showAuthor('作者/发布人');
+            $grid->sort('公告权重');
+            $grid->uid('创建人')->display(function($uid){
+                return DB::table('admin_users')->find($uid)->username;
+            });
+            $grid->created_at('创建时间');
+            $grid->updated_at('修改时间');
+        });
+    }
+
+    /**
+     * Make a form builder.
+     *
+     * @return Form
+     */
+    protected function form()
+    {
+        return Admin::form(Notice::class, function (Form $form) {
+            $form->display('id', 'ID');
+            $form->text('title','公告标题');
+            $form->text('showAuthor','作者/发布人');
+            $form->textarea('blurb','公告简介');
+            $form->text('sort','公告权重');
+            $form->editor('content','公告内容');
+            $form->hidden('uid');
+            $form->hidden('visit_num');
+            $form->saving(function(Form $form){
+                $form->uid=Admin::user()->id;
+                $form->visit_num=0;
+            });
+        });
+    }
+}

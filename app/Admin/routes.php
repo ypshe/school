@@ -3,7 +3,6 @@
 use Illuminate\Routing\Router;
 
 Admin::registerAuthRoutes();
-
 Route::group([
     'prefix'        => config('admin.route.prefix'),
     'namespace'     => config('admin.route.namespace'),
@@ -29,6 +28,12 @@ Route::group([
     $router->resource('teacher', TeacherController::class);
     //题库管理
     $router->resource('exam', ExamController::class);
+    //通知公告管理
+    $router->resource('notice', NoticeController::class);
+    //工作动态管理
+    $router->resource('work', WorkController::class);
+    //广告位管理
+    $router->resource('banner', BannerController::class);
 
 });
 

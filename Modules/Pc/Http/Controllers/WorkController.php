@@ -2,71 +2,24 @@
 
 namespace Modules\Pc\Http\Controllers;
 
+use App\Admin\Model\Work;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 class WorkController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
     public function index()
     {
-        return view('Pc.work');
+        $data['title']='工作动态';
+        $data['works']=Work::orderBy('sort','desc')->paginate(10);
+        return view('Pc.work')->with($data);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
+    public function desc($id)
     {
-        return view('pc::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('pc::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('pc::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
+        $data['title']='工作动态详情';
+        $data['work']=Work::find($id);
+        Work::whereId($id)->increment('visit_num', 1);
+        return view('Pc.workDesc')->with($data);
     }
 }

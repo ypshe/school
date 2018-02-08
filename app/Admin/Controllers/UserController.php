@@ -79,8 +79,10 @@ class UserController extends Controller
             $grid->nationality('民族');
             $grid->where_c('籍贯')->display(function($where_c) {
                 $addr=DB::table('addr')->whereId($where_c)->first();
-                $data=DB::table('addr')->select('name')->whereId($addr->upid)->first()->name.'-'.$addr->name;
-                return $data;
+                if($addr) {
+                    $data = DB::table('addr')->select('name')->whereId($addr->upid)->first()->name . '-' . $addr->name;
+                }
+                return $data??'';
             });
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');
@@ -125,7 +127,7 @@ class UserController extends Controller
                 'unique'=>'身份证号已存在，请校验信息',
                 'required'=>'请输入身份证号'
                 ]);
-            $form->image('pic', '个人照片')->resize('413','295');
+            $form->image('pic', '个人照片');
             $addr = DB::table('addr')->where('type',3)->pluck('name','id')->toArray();
             $where_c=[];
             $home_c=[];
@@ -139,7 +141,7 @@ class UserController extends Controller
             $form->select('where_p', '籍贯')->options($addr)->load('where_c', '/admin/api/addr')->setWidth(2);
             $form->select('where_c','')->options($where_c)->setWidth(2);
             $form->radio('sex','性别')->options(['男'=>'男','女'=>'女'])->default('男');
-            $form->radio('political','政治面貌')->options(['群众','党员']);
+            $form->radio('political','政治面貌')->options(['群众'=>'群众','党员'=>'党员']);
             $form->select('home_p', '家庭住址')->options($addr)->load('home_c', '/admin/api/addr')->setWidth(2);
             $form->select('home_c','')->options($home_c)->load('home_a', '/admin/api/addr')->setWidth(2);
             $form->select('home_a','')->options($home_a)->setWidth(2);
@@ -148,9 +150,9 @@ class UserController extends Controller
                 ->rules('regex:/^([\xe4-\xe9][\x80-\xbf]{2}){1,9}$/',[
                 'regex' => '请输入正确的民族',
             ]);
+//            $form->hidden('small_pic');
             $form->password('password', '密码')->placeholder('请设置学生登录密码，6-12位字符')
                 ->rules('confirmed|required',[
-//                    'regex' => '请输入正确格式密码',
                     'confirmed'=>'两次输入密码不相同',
                     'required'=>'请输入密码'
                 ])->default(function ($form) {

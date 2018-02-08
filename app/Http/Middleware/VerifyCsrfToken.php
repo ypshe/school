@@ -13,5 +13,10 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        'ajax/*',
     ];
+    public function handle($request, \Closure $next)
+    {
+        return parent::handle($request, $next);
+    }
 }

@@ -101,85 +101,6 @@ $(function(){
 	$(".tongzhi dl").mouseout(function(){
 		$(this).removeClass("on");
 	});
-	//登录、注册
-//	<!--注册-->
-    var zhuce = '<div class="zhuce" id="zhuce">'+
-			'<div class="guanbi">'+
-				'<img src="Pc/img/guanbi.png">'+
-			'</div>'+
-			'<div class="ztop">'+
-				'注册'+
-			'</div>'+
-			'<form>'+
-				'<div class="zmo">'+
-					'<dl>'+
-						'<dt>'+
-							'<input type="text" placeholder="请输入身份证号码" class="sfz" name="sfz" />'+
-							'<span class="jieguo"></span>'+
-						'</dt>'+
-					'</dl>'+
-					'<dl style="position:relative;">'+
-						'<dt class="y">'+
-							'<input class="yan" type="text" placeholder="验证码" name="yan" />'+
-						'</dt>'+
-						'<span class="jieguo" style="position:absolute;right:0;top:52px;color:red"></span>'+
-						'<dd>'+
-							'<img src="Pc/img/yanzhengma.jpg">'+
-						'</dd>'+
-					'</dl>'+
-					'<dl>'+
-						'<dt>'+
-							'<input type="password" class="mima mima01" placeholder="设置密码(以字母开头，6-18字符，字符、数字和下划线)" name="mima" />'+
-							'<span class="jieguo"></span>'+
-						'</dt>'+
-					'</dl>'+
-					'<dl>'+
-						'<dt>'+
-							'<input type="password" class="mima mima02" placeholder="设置密码" name="mima" />'+
-							'<span class="jieguo"></span>'+
-						'</dt>'+
-					'</dl>'+
-				'</div>'+
-				'<div class="btn" id="zhucebtn">'+
-					'<input type="button" value="注册"/>'+
-				'</div>'+
-			'</form>'+
-		'</div>';
-		var denglu = '<div class="zhuce denglu" id="denglu">'+
-			'<div class="guanbi">'+
-				'<img src="Pc/img/guanbi.png">'+
-			'</div>'+
-			'<div class="ztop">'+
-				'登录'+
-			'</div>'+
-			'<form>'+
-				'<div class="zmo">'+
-					'<dl>'+
-						'<dt>'+
-							'<input type="text" class="sfz" placeholder="请输入身份证号码" name="sfz" />'+
-							'<span class="jieguo"></span>'+
-						'</dt>'+
-					'</dl>'+
-					'<dl>'+
-						'<dt>'+
-							'<input type="password" class="mima mima01" placeholder="密码" name="mima" />'+
-							'<span class="jieguo"></span>'+
-						'</dt>'+
-					'</dl>'+
-				'</div>'+
-				'<div class="btn" id="denglubtn">'+
-					'<input type="button" value="登录"/>'+
-				'</div>'+
-				'<div class="wj">'+
-					'<a href="">忘记密码?</a>'+
-					'<a class="go" href="javascript:;">去注册</a>'+
-				'</div>'+
-			'</form>'+
-		'</div>';
-		var zhe = '<div class="zhe"></div>';
-		$("body").append(zhuce);
-		$("body").append(denglu);
-		$("body").append(zhe);
 		$(".zc").click(function(){
 			$("#zhuce").show();
 			$(".zhe").show();
@@ -196,9 +117,8 @@ $(function(){
 			$(this).parents(".zhuce").hide();
 			$("#zhuce").show();
 		});
-		var s = /^\d{15}|\d{}18$/;//验证身份证
-		var ms = /^[a-zA-Z]\w{5,17}$/;//验证密码
-		console.log(s);
+		var s = /^\d{15}|\d{17}[xX]{1}$/;//验证身份证
+		var ms = /^[a-zA-Z0-9]{6,18}$/;//验证密码
 		$("[name='sfz']").blur(function() {
 			var v = $(this).val();
 			console.log(v);
@@ -227,56 +147,83 @@ $(function(){
 			var mima01 = $(this).prev(".zmo").find(".mima01").val();
 			var mima02 = $(this).prev(".zmo").find(".mima02").val();
 			var yan = $(this).prev(".zmo").find(".yan").val();
+			var status=1;
 			if(sfz == ""){
 				$(this).prev(".zmo").find(".sfz").next("span").html("身份证号不能为空");
+				status=0;
 			}else if(!sfz.match(s)){
 				$(this).prev(".zmo").find(".sfz").next("span").html("身份证号不合法");
-			}else{
+                status=0;
+            }else{
 				$(this).prev(".zmo").find(".sfz").next("span").html("");
 			};
 			if(mima01 == ""){
 				$(this).prev(".zmo").find(".mima01").next("span").html("密码不能为空");
-			}else if(!mima01.match(ms)){
+                status=0;
+            }else if(!mima01.match(ms)){
 				$(this).prev(".zmo").find(".mima01").next("span").html("密码不合法");
-			}else{
+                status=0;
+            }else{
 				$(this).prev(".zmo").find(".mima01").next("span").html("");
 			};
 			if(mima02 == ""){
 				$(this).prev(".zmo").find(".mima02").next("span").html("密码不能为空");
-			}else if(!mima02.match(ms)){
+                status=0;
+            }else if(!mima02.match(ms)){
 				$(this).prev(".zmo").find(".mima02").next("span").html("密码不合法");
-			}else{
+                status=0;
+            }else{
 				$(this).prev(".zmo").find(".mima02").next("span").html("");
 			};
 			if(mima01 != mima02){
 				$(this).prev(".zmo").find(".mima02").next("span").html("密码不一样");
-			}else{
+                status=0;
+            }else{
 				$(this).prev(".zmo").find(".mima02").next("span").html("");
 			};
 			if(yan == ""){
 				$(this).prev(".zmo").find(".yan").parent("dt").next("span").html("验证码不能为空");
-			}else{
+                status=0;
+            }else{
 				$(this).prev(".zmo").find(".yan").next("span").html("");
-			};
+			}
+			if(status==1){
+                $(this).parent("form").submit();
+            }
 		});
 		//点击登录按钮
 		$("#denglubtn").click(function(){
 			var sfz = $(this).prev(".zmo").find(".sfz").val();
 			var mima01 = $(this).prev(".zmo").find(".mima01").val();
+			var yan = $(this).prev(".zmo").find(".yan").val();
+			var status=1;
 			if(sfz == ""){
 				$(this).prev(".zmo").find(".sfz").next("span").html("身份证号不能为空");
+				status=0;
 			}else if(!sfz.match(s)){
 				$(this).prev(".zmo").find(".sfz").next("span").html("身份证号不合法");
-			}else{
+                status=0;
+            }else{
 				$(this).prev(".zmo").find(".sfz").next("span").html("");
 			};
 			if(mima01 == ""){
 				$(this).prev(".zmo").find(".mima01").next("span").html("密码不能为空");
-			}else if(!mima01.match(ms)){
+                status=0;
+            }else if(!mima01.match(ms)){
 				$(this).prev(".zmo").find(".mima01").next("span").html("密码不合法");
-			}else{
+                status=0;
+            }else{
 				$(this).prev(".zmo").find(".mima01").next("span").html("");
-			};
+			}
+            if(yan == ""){
+                $('#resCaptche').html("验证码不能为空");
+                status=0;
+            }else{
+                $('#resCaptche').html("");
+            }
+			if(status==1){
+                $(this).parent("form").submit();
+			}
 		});
 		$(".jizhu").click(function(){
 			$("#zhuce").show();
@@ -324,3 +271,5 @@ function IEVersion() {
     }
 }
 IEVersion();
+//新增
+

@@ -1075,16 +1075,6 @@
 	overflow: hidden;
 	margin-right: 42px;
 }
-.zhe{
-	position: fixed;
-	width:100%;
-	height:100%;
-	z-index: 10;
-	left:0;
-	top:0;
-	background: url(../img/sanshi.png) repeat center center;
-	display: none;
-}
 .zhengque{
 	position: absolute;
     width:450px;
@@ -1426,71 +1416,7 @@
 	color:#ffffff;
 	border:none;
 }
-.chaxun{
-	height:40px;
-	width:632px;
-	margin:auto;
-	margin-top:46px;
-	position: relative;
-}
-.chaxun .jieguo{
-	position: absolute;
-	right:172px;
-	top:40px;
-	color:red;
-	font-size:12px;
-}
-.chaxun span{
-	display: block;
-	float: left;
-	line-height: 38px;
-}
-.chaxun .shuru{
-	width:377px;
-	height:38px;
-	display: block;
-	float: left;
-	line-height: 38px;
-	font-size:16px;
-	padding-left: 5px;
-}
-.chaxun .cx{
-	float: left;
-	margin-top:0px;
-	margin-left: 20px;
-	font-size:18px;
-	font-weight: bold;
-	background: #e70a2e;
-	width:150px;
-	border-radius: 5px;
-	height:42px;
-}
-.chaxliebiao{
-	width:1096px;
-	margin:auto;
-	margin-top:35px;
-}
-.chaxliebiao table{
-	width:100%;
-	
-}
-.chaxliebiao table thead{
-	background: #eff5fb;
-	height:40px;
-}
-.chaxliebiao table tr td{
-	padding-left: 17px;
-	border:1px solid #dcdcdc;
-}
-.chaxliebiao table thead td{
-	height:40px;
-	font-weight: bold;
-	line-height: 40px;
-}
-.chaxliebiao table tbody tr td{
-	line-height: 38px;
-	color:#666666;
-}
+
 .tongzhi{
 	height:auto;
 	padding-bottom: 20px;

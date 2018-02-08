@@ -112,6 +112,7 @@ class VideoController extends Controller
                 $id=$actions->getKey();
                 // prepend一个操作
                 $actions->prepend('<a href="'.url('admin/exam?vid='.$id).'"><i class="fa fa-paper-plane"></i>查看视频问题</a>');
+                $actions->prepend('<a target="_Blank" href="'.url('https://cn.office-converter.com/Convert-to-MP4').'"><i class="fa fa-chain"></i>转换视频格式</a>');
             });
         });
     }
@@ -188,6 +189,7 @@ class VideoController extends Controller
                     $video_time = json_decode(FFmpeg::getVideoInfo($form->url))->play_time;
                     $form->time = $video_time;
                     Study::whereId($form->sid)->increment('time', $video_time);
+                    Study::whereId($form->sid)->increment('video_num', 1);
                 }
                 $form->nav = $form->sid . '-' .$form->section.'-'. $form->sort;
 

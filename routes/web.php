@@ -12,8 +12,12 @@
 */
 use Illuminate\Routing\Router;
 
-Route::get('/','HomeController@index');
+Route::get('/ajax/addr', 'HomeController@addr');
+
 Route::prefix('storage/uploads')->group(function(Router $router){
     $router->get('/video/{date}/{path}','FileController@index');
     $router->get('/images/{images}','FileController@index');
+    $router->get('/images/{images}/{dir}','FileController@index');
 });
+
+Auth::routes();
