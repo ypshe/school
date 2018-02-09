@@ -87,7 +87,7 @@
 					<input type="button" class="button" value="登录" />
 				</div>
 				<div class="jizhu">
-					<a href="javascript:;">还没有账号，现在注册</a>
+					<a href="{{url('/register')}}">还没有账号，现在注册</a>
 				</div>
 			</form>
 		</div>

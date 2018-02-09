@@ -60,13 +60,13 @@ class LoginController extends Controller
         if ($validator->fails()){
             $error=1;
         }else{
-            if (!Auth::attempt(['cardId' => $request->cardId, 'password' => $request->password])) {
+            if (!Auth::attempt(['cardId' => $request->cardId, 'password' => $request->password],$request->remember)) {
                 $validator->errors()->add('password', '密码错误');
                 $error=1;
             }
         }
         if($error){
-            if($request->getRequestUri()=='/login'){
+            if(strstr(url()->previous(),'/login')){
                 $this->redirectTo='/login';
             }
             return redirect($this->redirectTo)

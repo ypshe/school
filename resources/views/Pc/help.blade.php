@@ -78,7 +78,7 @@
             init();
             function init(){
                 // 地图的中心地理坐标。
-                var center = new qq.maps.LatLng(39.9476900000,116.3284000000);
+                var center = new qq.maps.LatLng(35.190141,114.722988);
                 var map = new qq.maps.Map(document.getElementById('map'),{
                     center: center,
                     zoom: 13
@@ -93,6 +93,16 @@
                     map: map,
                     content:'河南省长垣县职业技术学校'
                 });
+//                var anchor = new qq.maps.Point(0, 39),
+//                    size = new qq.maps.Size(42, 68),
+//                    origin = new qq.maps.Point(0, 0),
+//                    icon = new qq.maps.MarkerImage(
+//                        "/doc_v2/img/nilt.png",
+//                        size,
+//                        origin,
+//                        anchor
+//                    );
+//                marker.setIcon(icon);
             }
 		</script>
 		<!--主体部分-->

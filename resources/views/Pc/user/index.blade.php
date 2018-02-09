@@ -114,14 +114,14 @@
 									<input type="hidden" name="cardIdOld" value="{{$user->cardId}}">
 									<dl>
 										<dt style="margin-top:17px;">头像：</dt>
-										<dd>
+										<dd class="z_photo upimg-div clear">
 											<div class="touxbox">
 												<img src="{{img_local($user->pic)}}">
 											</div>
-											<div class="xiugai" id="zwb_upload">
+											<div class="xiugai z_file fl">
 												<label>
 													<span>修改头像</span>
-													<input type="file" name="pic" id="file" class="file" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple />
+													<input type="file" name="pic" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple />
 												</label>
 											</div>
 										</dd>
