@@ -34,7 +34,7 @@
 				</div>
 				<div class="bantopri">
 					<div class="bantopritop">
-						<a href="@if($define===0){{url('/videoFirst/'.$study->id)}}@else{{url('/getStudy/'.$study->id)}}@endif">@if($define===0)开始学习@else立即报名@endif</a>
+						<a class="goStudy" url=""@if($define===0){{url('/videoFirst/'.$study->id)}}@else{{url('/getStudy/'.$study->id)}}@endif">@if($define===0)开始学习@else立即报名@endif</a>
 					</div>
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 								@foreach($videos as $kk=>$vv)
 									@if($vv->section==$k)
 										<dd>
-											<a href="@if($define===0){{url('/video/'.$vv->id)}}@else{{url('/getStudy/'.$study->id)}}@endif">
+											<a class="goStudy" url="@if($define===0){{url('/video/'.$vv->id)}}@else{{url('/getStudy/'.$study->id)}}@endif">
 												<div class="mululist">
 													<i></i>
 													<span>{{$k+1}}-{{$vv->sort}} {{$vv->name}}（{{intval($vv->time/60)}}：{{intval($vv->time%60)}}） </span>
@@ -74,6 +74,19 @@
 							</dl>
 						@endforeach
 					</div>
+					<script>
+						$('.goStudy').click(function(){
+						    @if(!\Illuminate\Support\Facades\Auth::check())
+                                layer.msg('请登录后进行课程学习！', {time: 3000, icon:3});
+                                var url=$(this).attr('url');
+                            	setTimeout(function() {
+                                    location.href=url;
+								},2000);
+							@else
+                                location.href=$(this).attr('url');
+                            @endif
+						});
+					</script>
 				</div>
 				<!--讲师简介-->
 				<div class="jianjieri">

@@ -81,6 +81,15 @@ class VideoController extends Controller
     protected function grid($sid)
     {
         return Admin::grid(Video::class, function (Grid $grid)use($sid) {
+            $grid->filter(function($filter){
+
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+
+                // 在这里添加字段过滤器
+                $filter->like('name', '视频名称');
+
+            });
             if($sid){
                $grid->model()->where('sid',$sid);
             }

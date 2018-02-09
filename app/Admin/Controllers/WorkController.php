@@ -74,8 +74,18 @@ class WorkController extends Controller
     protected function grid()
     {
         return Admin::grid(Work::class, function (Grid $grid) {
+            $grid->filter(function($filter){
+
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+
+                // 在这里添加字段过滤器
+                $filter->like('title', '动态标题');
+
+            });
 
             $grid->id('ID')->sortable();
+            $grid->pic('展示图片')->image('',100,80);
             $grid->title('动态标题');
             $grid->showAuthor('作者/发布人');
             $grid->sort('动态权重');
@@ -100,6 +110,7 @@ class WorkController extends Controller
             $form->text('showAuthor','作者/发布人');
             $form->textarea('blurb','动态简介');
             $form->text('sort','动态权重');
+            $form->image('pic', '展示图片');
             $form->editor('content','动态内容');
             $form->hidden('uid');
             $form->hidden('visit_num');

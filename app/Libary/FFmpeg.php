@@ -10,8 +10,10 @@ class FFmpeg
      */
     public static function getVideoInfo($file)
     {
+        // 定义ffmpeg路径及命令常量
+        $ff=config('FFmpeg.'.env('APP_SYSTEM','linux'));
         ob_start();
-        passthru(sprintf(FFMPEG_CMD, $file));
+        passthru(sprintf($ff, $file));
         $video_info = ob_get_contents();
         ob_end_clean();
 

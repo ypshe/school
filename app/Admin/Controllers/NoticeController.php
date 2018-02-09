@@ -74,8 +74,19 @@ class NoticeController extends Controller
     protected function grid()
     {
         return Admin::grid(Notice::class, function (Grid $grid) {
+            $grid->filter(function($filter){
+
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+
+                // 在这里添加字段过滤器
+                $filter->like('title', '公告标题');
+
+            });
+
 
             $grid->id('ID')->sortable();
+            $grid->pic('展示图片')->image('',100,80);
             $grid->title('公告标题');
             $grid->showAuthor('作者/发布人');
             $grid->sort('公告权重');
@@ -100,6 +111,7 @@ class NoticeController extends Controller
             $form->text('showAuthor','作者/发布人');
             $form->textarea('blurb','公告简介');
             $form->text('sort','公告权重');
+            $form->image('pic', '展示图片');
             $form->editor('content','公告内容');
             $form->hidden('uid');
             $form->hidden('visit_num');

@@ -2,6 +2,7 @@
 
 namespace Modules\Pc\Http\Controllers;
 
+use App\Admin\Model\Exam;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -39,6 +40,8 @@ class UserController extends Controller
         $data['p']=DB::table('addr')->where('type',3)->get();
         return view('Pc.user.index')->with($data);
     }
+
+    //修改用户信息
     public function edit(Request $request){
         $data=$request->except('_token');
         $user=User::where('cardId',$data['cardIdOld'])->first();
@@ -102,6 +105,7 @@ class UserController extends Controller
             return redirect()->back()->withInput();
         }
     }
+    //修改密码
     public function updatePwd(Request $request){
         $data=$request->except('_token');
         Session::flash('userIndexType', 1);
@@ -134,5 +138,35 @@ class UserController extends Controller
             Session::flash('message_error', '修改密码成功，请下次使用新密码登录', 3);
             return redirect()->back()->withInput();
         }
+    }
+    public function errorExam(Request $request){
+        $data['user']=Auth::user();
+        $data['exam']=Exam::select('exams.*','studies.name as sname','error_exams.*','error_exams.id as errorId')
+            ->leftjoin('error_exams','exams.id','error_exams.eid')
+            ->leftjoin('studies','studies.id','exams.sid');
+        if($request->search){
+            $data['exam']=$data['exam']->where('exams.info','like','%'.$request->search."%");
+        }
+        $data['title']='错题库';
+        $data['exam']=$data['exam']->where('error_exams.uid',$data['user']->id)
+            ->paginate(15);
+        return view('Pc.user.error_exam')->with($data);
+    }
+    //查询错题
+    public function getExam(Request $request){
+        $id=$request->id;
+        $data=Exam::find($id);
+        if(!$data)
+            return false;
+        return $data;
+    }
+    //删除错题
+    public function delExam(Request $request){
+        $id=$request->id;
+        $data=DB::table('error_exams')->find($id);
+        if(!$data)
+            return 'no';
+        DB::table('error_exams')->whereId($id)->delete();
+        return 'yes';
     }
 }

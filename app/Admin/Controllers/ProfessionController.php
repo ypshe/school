@@ -72,7 +72,15 @@ class ProfessionController extends Controller
     protected function grid()
     {
         return Admin::grid(Profession::class, function (Grid $grid) {
+            $grid->filter(function($filter){
 
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+
+                // 在这里添加字段过滤器
+                $filter->like('name', '专业名称');
+
+            });
             $grid->id('ID')->sortable();
             $grid->name('专业名称');
             $grid->grade('专业评分');

@@ -66,6 +66,18 @@ class UserController extends Controller
     protected function grid()
     {
         return Admin::grid(User::class, function(Grid $grid){
+            $grid->filter(function($filter){
+
+                // 去掉默认的id过滤器
+                $filter->disableIdFilter();
+
+                // 在这里添加字段过滤器
+                $filter->like('name', '姓名');
+                $filter->like('sex', '性别');
+                $filter->like('political', '政治面貌');
+                $filter->like('nationality', '民族');
+
+            });
             $grid->id('ID')->sortable();
             $grid->column('name','用户名');
             $grid->pic('个人照片')->image('',30,30);

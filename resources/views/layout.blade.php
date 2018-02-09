@@ -15,7 +15,6 @@
     <script type="text/javascript" src="/Pc/js/jquery.SuperSlide.2.1.1.js" ></script>
     <script type="text/javascript" src="/Pc/js/base.js"></script>
     <script type="text/javascript" src="/Vendor/layer/layer.js"></script>
-
     <link rel="stylesheet" href="/Pc/css/gerenzhongxin.css" />
 </head>
 <body>

@@ -16,9 +16,15 @@
 					<dl>
 						<a href="{{url('/notice/'.$v->id)}}">
 							<dt>
-								<h3>{{$v->title}}</h3>
-								<span style="height:auto">发布人：{{$v->showAuthor}}<br>{{$v->blurb}}</span>
-								<b class="time">{{$v->created_at}}</b>
+							<div>
+								<div style=" float:left;width:140px;height: 100px" ><img style="width:140px;height: 100px" src="{{img_local($v->pic)}}" alt="查看详情"></div>
+								<div style="padding-left:160px">
+									<h3>{{$v->title}}</h3>
+								<span style="height:auto">发布人：{{$v->showAuthor}}<br>发布时间：{{$v->created_at}}</span>
+								{{--<b class="time">{{$v->created_at}}</b>--}}
+								</div>
+								<span style="height:auto">概要：{{$v->blurb}}</span>
+							</div>
 							</dt>
 							<dd>
 								<span>查看详情</span>

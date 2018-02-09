@@ -14,7 +14,7 @@
 			<div class="gerenbox">
 				<div class="gerentop">
 					<div class="gerentouxiang">
-						<a href="">
+						<a href="{{url('/user')}}">
 							<img src="{{img_local($user->pic)}}">
 						</a>
 					</div>
@@ -42,7 +42,7 @@
 									<span>在线考试</span>
 									<i></i>
 								</a>
-								<a href="">
+								<a href="{{url('/user/errorExam')}}">
 									<span>错题库</span>
 									<i></i>
 								</a>

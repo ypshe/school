@@ -25,7 +25,10 @@ Route::group(['middleware' =>'web','namespace' => 'Modules\Pc\Http\Controllers']
         //用户个人中心
         Route::get('/user', 'UserController@index');
         Route::post('/user/edit', 'UserController@edit');
+        Route::get('/user/errorExam', 'UserController@errorExam');
         Route::post('/user/updatePwd', 'UserController@updatePwd');
+        Route::get('/ajax/getExam', 'UserController@getExam');
+        Route::get('/ajax/delExam', 'UserController@delExam');
     });
     //学时
     Route::get('/time', 'StudyController@getStudyTime');
