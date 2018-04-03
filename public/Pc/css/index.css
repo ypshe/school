@@ -890,7 +890,7 @@
     z-index: 9;
     width: 350px;
     height: 100%;
-    background: url(/static/img/course/bg_sectionlist.png) repeat-x #14191e;
+    background:  repeat-x #14191e;
 }
 .section-list .operator {
     position: absolute;
@@ -927,7 +927,7 @@
     overflow: hidden;
 }
 .section-list .nano {
-    background: url(/static/img/course/bg_sectionlist.png) 0 bottom repeat-x;
+    background:  0 bottom repeat-x;
 }
 .nano>.nano-content {
     position: absolute;

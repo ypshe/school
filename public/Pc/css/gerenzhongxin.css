@@ -69,12 +69,19 @@
 	line-height: 38px;
 	border-bottom: 1px dashed #f1f1f1;
 }
+.gerenbole dl dd .on{
+	color:#0b4685;
+}
+.gerenbole dl dd .on .b{
+	background: url(../img/liuchengon.jpg);
+}
 .gerenbole dl dd a span{
 	display: block;
 	float: left;
 	line-height: 38px;
 	color:#666666;
 	margin-left: 64px;
+	font-size:16px;
 }
 .gerenbole dl dd a i{
 	display: block;
@@ -90,12 +97,10 @@
 	background: url(../img/youxo.png) no-repeat center center;
 }
 .gerenbole dl dd .on{
-	background: #03478f;
-	color:#ffffff;
-	border:1px solid #03478f;
+	color:#03478f;
 }
 .gerenbole dl dd .on span{
-	color:#ffffff;
+	color:#03478f;
 }
 .gerenbole dl .kefu a{
 	border-bottom: none;
@@ -104,6 +109,15 @@
 	float: none;
 	line-height: 16px;
 	margin-top: 20px;
+}
+.gerenbole dl dd .on .cao{
+	background: url(../img/caozuoons.png);
+}
+.gerenbole dl dd .on .peixun{
+	background: url(../img/peixunon.png);
+}
+.gerenbole dl dd .on .lianxii{
+	background: url(../img/lianxions.png);
 }
 .gerenbole dl .kefu a b{
 	display: block;
@@ -1153,6 +1167,10 @@
 	overflow: hidden;
 	margin:auto 28px;
 	margin-top:36px;
+}
+.bangzhuri img{
+	/*width:700px;*/
+	/*margin:20px auto;*/
 }
 .lianximole{
 	float: left;

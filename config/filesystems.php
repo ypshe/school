@@ -64,9 +64,22 @@ return [
         ],
         'admin' => [
             'driver' => 'local',
-            'root' => storage_path('uploads'),
+            'root' => storage_path().'/app/aetherupload',
             'visibility' => 'public',
-            'url' => '/storage/uploads',
+            'url' => '/storage/app/aetherupload',
+        ],
+        'qiniu' => [
+            'driver'  => 'qiniu',
+            'domains' => [
+                'default'   => 'file.apanclub.cn', //你的七牛域名
+                'https'     => 'www.apanclub.cn',         //你的HTTPS域名
+                'custom'    => 'static.abc.com',                //Useless 没啥用，请直接使用上面的 default 项
+            ],
+            'access_key'=> '3n3Gtt_pacdffEkpjN0SLgpZ-1S6Y8sZrc-2cZva',  //AccessKey
+            'secret_key'=> 'lN-Enlf257QXp_brLNpS9nEtgbOTTWXidM8305Ci',  //SecretKey
+            'bucket'    => 'apan',  //Bucket名字
+            'notify_url'=> '',  //持久化处理回调地址
+            'access'    => 'private'  //空间访问控制 public 或 private
         ],
 
     ],

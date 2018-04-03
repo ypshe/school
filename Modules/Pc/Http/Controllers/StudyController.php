@@ -64,7 +64,15 @@ class StudyController extends Controller
             ->get();
         $data['section']=json_decode($data['study']->section,true);
         $data['videos']=Video::where('sid',$id)->get();
-        if(1){
+        $data['study']['study_num']=DB::table('study_time')->where('sid',$id)->groupBy('uid')->count('uid');
+        if(Auth::check()) {
+            //进行学习的条件
+            $res = DB::table('user_study')->where('uid',Auth::user()->id)->where('pid', $data['study']->pid)->first();
+            $data['study_time_ids']=DB::table('study_time')->where('uid',Auth::user()->id)->where('sid', $id)->pluck('vid')->toArray();
+        }else{
+            $res=0;
+        }
+        if($res){
             $data['define']=0;
         }else{
             $data['define']=1;
@@ -91,7 +99,20 @@ class StudyController extends Controller
                 ->orderBy('sort','asc')
                 ->first();
         }
+        if(!$data['video']){
+            $user=new UserController();
+            return $user->error(['msg'=>'该课程还未上传视频，请耐心等待','type'=>'error','url'=>url('/study')]);
+        }
         $data['study']=Study::find($data['video']->sid);
+        $user_study=DB::table('user_study')->where('pid',$data['study']->pid)->where('uid',Auth::user()->id)->first();
+        if(!$user_study){
+            $user=new UserController();
+            return $user->error(['msg'=>'您未报名参加该视频所属专业的课程，请先报名！','type'=>'error','url'=>url('/getStudy/'.$data['study']->pid)]);
+        }
+        $data['study_time_count']=DB::table('study_time')->select(DB::raw('count(id) as num'))
+            ->where('uid',Auth::user()->id)
+            ->where('sid',$data['study']->id)
+            ->first();
         $data['question']=Exam::where('vid',$data['video']->id)->first();
         //打乱题目
         if($data['question']) {
@@ -127,6 +148,7 @@ class StudyController extends Controller
         //处理错题
         $data['uid']=Auth::id();
         $data['created_time']=date('Y-m-d H:i:s');
+        $data['eChooseId']=0;
         if(!DB::table('error_exams')->where([['uid','=',$data['uid']], ['eid','=',$data['eid']]])->first())
             DB::table('error_exams')->insert($data);
     }
@@ -171,22 +193,48 @@ class StudyController extends Controller
             $data['user']=User::where('cardId',$cardId)->first();
             if($data['user']){
                 $data['time']=DB::table('professions')
-                    ->select('professions.name as pname',DB::raw('max(study_time.join_time) as addTime'),DB::raw('sum(study_time.study_time) as time'),DB::raw('sum(studies.video_num) as allTime'))
+                    ->select('professions.id as pid',DB::raw('max(study_time.join_time) as addTime'),DB::raw('sum(study_time.study_time) as time'))
                     ->join('study_time','study_time.pid','professions.id')
                     ->join('studies','studies.id','study_time.sid')
                     ->where('study_time.uid',$data['user']->id)
-                    ->groupBy('professions.name')
+                    ->groupBy('professions.id')
                     ->paginate(10);
-                $data['study']=DB::table('study_time')
-                    ->select('studies.name as sname','videos.section as section','videos.sort as vsort','study_time.*')
-                    ->join('studies','study_time.sid','studies.id')
-                    ->join('videos','videos.id','study_time.vid')
-                    ->where('study_time.uid',$data['user']->id)
-                    ->where('uid',$data['user']->id)->get();
+                $allTime=DB::table('professions')
+                    ->select('professions.id as pid',DB::raw('sum(studies.video_num) as allTime'))
+                    ->join('studies','studies.pid','professions.id')
+                    ->groupBy('professions.id')
+                    ->limit(10)->get();
+                $newAllTime=[];
+                foreach($allTime as $k=>$v){
+                    $newAllTime[$v->pid]=$v->allTime;
+                }
+                foreach($data['time'] as $k=>$v){
+                    $data['time'][$k]->allTime=$newAllTime[$v->pid];
+                }
             }else{
                 $data['error']='不存在该用户';
             }
         }
         return view('Pc.getStudyTime')->with($data);
+    }
+    public function getTimeDesc($pid,$cardId){
+        if($cardId&&$pid){
+            $data['user']=User::where('cardId',$cardId)->first();
+            if($data['user']){
+                $study=DB::table('study_time')
+                    ->select('studies.name as sname','videos.section as section','videos.sort as vsort','study_time.*')
+                    ->join('studies','study_time.sid','studies.id')
+                    ->join('videos','videos.id','study_time.vid')
+                    ->where('study_time.uid',$data['user']->id)
+                    ->where('study_time.pid',$pid)
+                    ->get()
+                    ->toArray();
+            }else{
+                return  '不存在该用户';
+            }
+        }else{
+            return 'error';
+        }
+        return json_encode($study);
     }
 }

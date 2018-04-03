@@ -1,0 +1,26 @@
+<TLOGConf>
+	<PriorityHigh>NULL</PriorityHigh>
+	<PriorityLow>UNKNOWN</PriorityLow>
+	<Count>1</Count>
+	<CategoryList>
+		<Name>datacollect</Name>
+		<PriorityHigh>NULL</PriorityHigh>
+		<PriorityLow>UNKNOWN</PriorityLow>
+		<Format>[%d]%p%m%n</Format>
+		<ForwardCat></ForwardCat>
+		<Device>
+			<Type>FILE</Type>
+			<Device>
+				<File>
+					<Pattern>./log/log</Pattern>
+					<BuffSize> 1024000 </BuffSize>
+					<SizeLimit> 51200000 </SizeLimit>
+					<Precision> 1 </Precision>
+					<MaxRotate> 10 </MaxRotate>
+					<SyncTime> 0 </SyncTime>
+					<NoFindLatest> 0 </NoFindLatest>
+				</File>
+			</Device>
+		</Device>
+	</CategoryList>
+</TLOGConf>

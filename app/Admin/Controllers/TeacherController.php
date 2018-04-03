@@ -120,8 +120,8 @@ class TeacherController extends Controller
                 ->rules('required',[
                     'required' => '请输入教师简介',
                 ]);
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
+//            $form->display('created_at', 'Created At');
+//            $form->display('updated_at', 'Updated At');
         });
     }
 }

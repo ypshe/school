@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset='utf-8'>
@@ -14,8 +14,13 @@
     <script type="text/javascript" src="/Pc/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/Pc/js/jquery.SuperSlide.2.1.1.js" ></script>
     <script type="text/javascript" src="/Pc/js/base.js"></script>
-    <script type="text/javascript" src="/Vendor/layer/layer.js"></script>
+    <script type="text/javascript" src="/vendor/layer/layer.js"></script>
     <link rel="stylesheet" href="/Pc/css/gerenzhongxin.css" />
+    @if(strpos(\Request::path(), 'help')===false)
+        <link rel="stylesheet" href="{{ URL::asset('/Pc/css/base_start.css') }}" />
+    @else
+        <link rel="stylesheet" href="{{ URL::asset('/Pc/css/base_help.css') }}" />
+    @endif
 </head>
 <body>
 <?php
@@ -51,7 +56,7 @@ $wx=\App\Admin\Model\Banner::where('place','wx')->orderBy('sort','desc')->first(
             @endif
             <i>
                 @if(\Illuminate\Support\Facades\Auth::id())
-                    <img onclick="javascript:window.location.href='{{url('/user')}}'" width="28" height="29" src="{{img_local(\Illuminate\Support\Facades\Auth::user()->pic)}}">
+                    <img onclick="javascript:window.location.href='{{url('/user')}}'" width="28" height="29" src="@if(\Illuminate\Support\Facades\Auth::user()->pic){{img_local(\Illuminate\Support\Facades\Auth::user()->pic)}}@else /Pc/img/icon02.jpg @endif">
                 @else
                     <img src="/Pc/img/icon02.jpg">
                 @endif
@@ -69,7 +74,7 @@ $wx=\App\Admin\Model\Banner::where('place','wx')->orderBy('sort','desc')->first(
                     <img src="/Pc/img/icon01.png">
                 </i>
                 <span class="allmenuH">全部专业</span>
-                <div class="all" @if($_SERVER['REQUEST_URI']==='/'||$_SERVER['REQUEST_URI']==='/home')style="display: block;"@endif>
+                <div class="all qita" @if($_SERVER['REQUEST_URI']==='/'||$_SERVER['REQUEST_URI']==='/home')style="display: block;"@endif>
                     @foreach(array_slice($pros,0,10) as $v)
                         <dl>
                             <a href="{{url('/study/'.$v['id'])}}">
@@ -104,7 +109,7 @@ $wx=\App\Admin\Model\Banner::where('place','wx')->orderBy('sort','desc')->first(
                             <!--右边分类-->
                         </dl>
                     @endforeach
-                    <dl style="border-bottom: none;background:url(/Pc/img/nav_on.png) no-repeat center top;">
+                    <dl style="border-bottom: none;">
                         <a href="{{url('/study')}}">
                             <dt>
                                 <i>
@@ -198,10 +203,10 @@ $wx=\App\Admin\Model\Banner::where('place','wx')->orderBy('sort','desc')->first(
                     <a href="{{url('/tel')}}">联系我们</a>
                 </li>
                 <li style="margin-top:14px;margin-bottom: 14px;">
-                    Copyright © 2018-2019 , All Rights Reserved
+                    <a href="http://webscan.360.cn/index/checkwebsite/url/www.apanclub.cn" name="3428a484ac1bae206d56c216f941cd23" >360网站安全检测平台</a>&nbsp;&nbsp;{{config('app.web_num')}}&nbsp;&nbsp;Copyright © 2018-2019 , All Rights Reserved
                 </li>
                 <li>
-                    长垣职业中等专业学校继续教育培训平台  版权所有
+                    <img style="display: inline" src="/police.png" alt="">&nbsp;{!! config('app.police_num') !!}&nbsp;&nbsp;长垣职业中等专业学校继续教育培训平台  版权所有
                 </li>
             </ul>
         </div>

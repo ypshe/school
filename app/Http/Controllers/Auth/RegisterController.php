@@ -56,7 +56,11 @@ class RegisterController extends Controller
                 'alpha_num'=>'请输入正确格式的身份证号',
                 'unique'=>'身份证号已存在，请核实后再输入',
                 'captcha'=>'验证码错误',
-        ]);
+                'password.required'=>'请输入密码',
+                'password.confirmed'=>'两次输入密码不同',
+                'password.min'=>'密码最小长度为6',
+                'password.max'=>'密码最大长度为18',
+            ]);
     }
     /**
      * Create a new user instance after a valid registration.

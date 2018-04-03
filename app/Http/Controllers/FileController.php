@@ -9,14 +9,13 @@ use Illuminate\Support\Facades\Auth;
 class FileController extends Controller
 {
     public function index(Request $request){
-        $request->getRequestUri();
-        if (strstr($request->url(), 'storage/uploads/video') !== false) {
-            if(! \Encore\Admin\Facades\Admin::user()) {
+        if (strpos($request->url(), 'mp4') !== false) {
+            if(!\Encore\Admin\Facades\Admin::user()) {
                 if(!Auth::check() || Auth::user()->status !== 1) {
-                    return response()->file('../storage/uploads/video/define.mp4');
+                    return response()->file('../storage/app/aetherupload/define.mp4');
                 }
             }
         }
-        return response()->file(urldecode(base_path($request->getRequestUri())));
+        return response()->file(urldecode('..'.$request->getRequestUri()));
     }
 }

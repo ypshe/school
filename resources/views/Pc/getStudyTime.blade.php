@@ -41,9 +41,9 @@
 								<td style="text-align: center;padding-left: 0;">{{$k+1}}</td>
 								<td>{{$v->addTime}}</td>
 								<td>{{$user->name}}</td>
-								<td width="496">{{$v->pname}}
+								<td width="496">{{\App\Admin\Model\Profession::find($v->pid)->name}}
 									@if($user->id==\Illuminate\Support\Facades\Auth::id())
-										<a style="text-decoration:underline;display:inline;" id="seeDesc" href="#">查看详情</a>
+										<a style="text-decoration:underline;display:inline;" class="seeDesc" pid="{{$v->pid}}" href="#">查看详情</a>
 									@endif
 								</td>
 								<td>{{$v->allTime}}</td>
@@ -54,29 +54,38 @@
 						</tbody>
 						@if($user->id==\Illuminate\Support\Facades\Auth::id())
 							<script>
-								$('#seeDesc').click(function(){
-                                    layer.open({
-                                        type: 1,
-                                        skin: 'layui-layer-demo', //样式类名
-                                        closeBtn: 0, //不显示关闭按钮
-                                        anim: 2,
-                                        area: ['700px', '500px'],
-                                        shadeClose: true, //开启遮罩关闭
-                                        content: '<div class="chaxliebiao" style="width:600px"><table><thead>' +
-										'<td >课程</td>' +
-                                        '<td>章节</td>' +
-                                        '<td>获得学时</td>' +
-                                        '<td>时间</td></thead><tbody>'
-										@foreach($study as $v)
-											+'<tr>' +
-											'<td>{{$v->sname}}</td>'+
-											'<td>{{$v->section.'-'.$v->vsort}}</td>'+
-											'<td>{{$v->study_time}}</td>'+
-											'<td>{{$v->join_time}}</td>'+
-											'</tr>'
-										@endforeach
-										+'</tbody></table></div>'
-                                    });
+								$('.seeDesc').click(function(){
+								    var pid=$(this).attr('pid');
+								    $.ajax({
+										url:'/ajax/time'+'/'+pid+'/'+'{{$cardId}}',
+										type:'get',
+										dataType:'json',
+										success:function(data){console.log(data);
+										    var str='<div class="chaxliebiao" style="width:600px"><table><thead>' +
+                                                '<td >课程</td>' +
+                                                '<td>章节</td>' +
+                                                '<td>获得学时</td>' +
+                                                '<td>时间</td></thead><tbody>';
+                                            $.each(data,function(key,value){
+                                                str+='<tr>' +
+                                                '<td>'+value.sname+'</td>'+
+                                                '<td>'+(value.section+1)+'-'+value.vsort+'</td>'+
+                                                '<td>'+value.study_time+'</td>'+
+                                                '<td>'+value.join_time+'</td>'+
+                                                '</tr>';
+											});
+                                            str+='</tbody></table></div>';
+                                            layer.open({
+                                                type: 1,
+                                                skin: 'layui-layer-demo', //样式类名
+                                                closeBtn: 0, //不显示关闭按钮
+                                                anim: 2,
+                                                area: ['700px', '500px'],
+                                                shadeClose: true, //开启遮罩关闭
+                                                content:str
+                                            });
+										}
+									});
 								});
 							</script>
 						@endif

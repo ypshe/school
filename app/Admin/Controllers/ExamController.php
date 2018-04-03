@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\CheckExam;
+use App\Admin\Extensions\CheckExams;
 use App\Admin\Model\Exam;
 
 use App\Admin\Model\Profession;
@@ -30,13 +32,13 @@ class ExamController extends Controller
             $vid=$request->get('vid');
             if($vid){
                 $video=Video::find($vid);
-                $content->header('题库列表');
+                $content->header('单选题');
                 $content->description('视频：'.$video->name);
 
                 $content->body($this->grid($vid));
             }else {
-                $content->header('题库管理');
-                $content->description('题库列表');
+                $content->header('单选题');
+                $content->description('试题列表');
 
                 $content->body($this->grid());
             }
@@ -53,7 +55,7 @@ class ExamController extends Controller
     {
         return Admin::content(function (Content $content) use ($id) {
 
-            $content->header('题库管理');
+            $content->header('单选题');
             $content->description('修改试题');
 
             $content->body($this->form($id)->edit($id));
@@ -69,7 +71,7 @@ class ExamController extends Controller
     {
         return Admin::content(function (Content $content) {
 
-            $content->header('题库管理');
+            $content->header('单选题');
             $content->description('新增试题');
 
             $content->body($this->form());
@@ -96,10 +98,25 @@ class ExamController extends Controller
                 return Study::find($sid)->name;
             });
             $grid->vid('所属视频')->display(function($vid){
-                return $vid ? Video::find($vid)->name : '不属于视频问题';
+                $a=Video::find($vid);
+                return ($vid&&$a) ? $a->name : '不属于视频问题';
+            });
+            $grid->status('审核状态')->display(function($status){
+                return $status?'已审核':'未审核';
             });
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');
+            $grid->actions(function ($actions) {
+                if($actions->row->status==0) {
+                    // append一个操作
+                    $actions->prepend(new CheckExam($actions->getKey()));
+                }
+            });
+            $grid->tools(function ($tools) {
+                $tools->batch(function ($batch) {
+                    $batch->add('审核通过', new CheckExams());
+                });
+            });
         });
     }
 
@@ -117,20 +134,24 @@ class ExamController extends Controller
                     'required'=>'请输入题目'
                 ]);
             $form->text('choose_1', '选项1')
-                ->rules('required',[
-                    'required'=>'请输入选项1'
+                ->rules('required|different:choose_2,choose_3,choose_4',[
+                    'required'=>'请输入选项1',
+                    'different'=>'选项之间不能相同'
                 ]);
             $form->text('choose_2', '选项2')
-                ->rules('required',[
-                    'required'=>'请输入选项2'
+                ->rules('required|different:choose_1,choose_3,choose_4',[
+                    'required'=>'请输入选项2',
+                    'different'=>'选项之间不能相同'
                 ]);
             $form->text('choose_3', '选项3')
-                ->rules('required',[
-                    'required'=>'请输入选项3'
+                ->rules('required|different:choose_1,choose_2,choose_4',[
+                    'required'=>'请输入选项3',
+                    'different'=>'选项之间不能相同'
                 ]);
             $form->text('choose_4', '选项4')
-                ->rules('required',[
-                    'required'=>'请输入选项4'
+                ->rules('required|different:choose_1,choose_3,choose_2',[
+                    'required'=>'请输入选项4',
+                    'different'=>'选项之间不能相同'
                 ]);
             if($id){
                 $data=Exam::find($id)->toArray();
@@ -167,12 +188,7 @@ class ExamController extends Controller
                     ->load('vid', '/admin/api/getVideo')
                     ->setWidth(2);
                 $video=Video::where('sid',$data['sid'])->get()->pluck('name','id')->toArray();
-                $arr=[];
-                foreach($video as $k=>$v){
-                    $arr[$k]['text']=$v;
-                    $arr[$k]['id']=$k;
-                }
-                array_unshift($arr,['id'=>0,'text'=>'不属于视频问题']);
+                $video[0]='不属于视频问题';
                 $form->select('vid', '所属视频')
                     ->options($video)
                     ->setWidth(2);

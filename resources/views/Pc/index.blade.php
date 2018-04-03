@@ -1,9 +1,12 @@
-@extends('layout')
+﻿@extends('layout')
 @section("content")
 	<style>
 		.yanzhengma img{
 			padding-top: 2px;
 		}
+		.qita{
+			background:url(Pc/img/bj_03.png) repeat center top !important;
+}
 	</style>
 	<!--banner部分-->
 	<div class="banner">
@@ -100,7 +103,7 @@
 			</h2>
 			<div class="touxiang">
 				<a href="{{url('/user')}}">
-					<img src="{{img_local(\Illuminate\Support\Facades\Auth::user()->pic)}}">
+					<img src="@if(\Illuminate\Support\Facades\Auth::user()->pic){{img_local(\Illuminate\Support\Facades\Auth::user()->pic)}}@else /Pc/img/touxiang.png @endif">
 				</a>
 			</div>
 			<h3>{{\Illuminate\Support\Facades\Auth::user()->name}}</h3>
@@ -118,7 +121,7 @@
 						</dd>
 					</a>
 				</dl>
-				<dl style="border-right:none">
+				<dl style="border-right:none;border-left:none;">
 					<a href="{{url('/study')}}">
 						<dt class="dt02">
 
@@ -128,8 +131,8 @@
 						</dd>
 					</a>
 				</dl>
-				<dl style="border-bottom: none;">
-					<a href="{{url('/user/reply')}}">
+				<dl style="border-bottom: none;border-top:none">
+					<a href="{{url('/user/ask')}}">
 						<dt class="dt03">
 
 						</dt>
@@ -138,7 +141,7 @@
 						</dd>
 					</a>
 				</dl>
-				<dl style="border-bottom: none;border-right:none">
+				<dl style="border-bottom: none;border-right:none;border-top:none;border-left:none;">
 					<a href="{{url('/logout')}}">
 						<dt class="dt04">
 
@@ -217,9 +220,9 @@
 					</dl>
 				</div>
 				<div class="liuchengri">
-					<a href="#">
-						<h2>报名表格下载</h2>
-						<span>直接点击下载即可</span>
+					<a href="{{url('/getStudy')}}">
+						<h2>立即报名</h2>
+						<span>点击参加专业课程学习</span>
 					</a>
 				</div>
 			</div>
@@ -346,56 +349,13 @@
 							<div class="mingdanbbo">
 								<div class="bd">
 									<ul>
-										<li>
-											<span>长垣县</span>
-											<span style="text-align: center;">王安利</span>
-											<span style="width:98px;text-align: right;">2017-12-25</span>
-										</li>
-										<li>
-											<span>长垣县</span>
-											<span style="text-align: center;">王安利</span>
-											<span style="width:98px;text-align: right;">2017-12-25</span>
-										</li>
-										<li>
-											<span>长垣县</span>
-											<span style="text-align: center;">王安利</span>
-											<span style="width:98px;text-align: right;">2017-12-25</span>
-										</li>
-										<li>
-											<span>长垣县</span>
-											<span style="text-align: center;">王安利</span>
-											<span style="width:98px;text-align: right;">2017-12-25</span>
-										</li>
-										<li>
-											<span>长垣县</span>
-											<span style="text-align: center;">王安利</span>
-											<span style="width:98px;text-align: right;">2017-12-25</span>
-										</li>
-										<li>
-											<span>长垣县</span>
-											<span style="text-align: center;">王安利</span>
-											<span style="width:98px;text-align: right;">2017-12-25</span>
-										</li>
-										<li>
-											<span>长垣县</span>
-											<span style="text-align: center;">王安利</span>
-											<span style="width:98px;text-align: right;">2017-12-25</span>
-										</li>
-										<li>
-											<span>长垣县</span>
-											<span style="text-align: center;">王安利</span>
-											<span style="width:98px;text-align: right;">2017-12-25</span>
-										</li>
-										<li>
-											<span>长垣县</span>
-											<span style="text-align: center;">王安利</span>
-											<span style="width:98px;text-align: right;">2017-12-25</span>
-										</li>
-										<li>
-											<span>长垣县</span>
-											<span style="text-align: center;">王安利</span>
-											<span style="width:98px;text-align: right;">2017-12-25</span>
-										</li>
+										@foreach($paste as $k=>$v)
+											<li>
+												<span>{{$v->home}}</span>
+												<span style="text-align: center;">{{$v->uname}}</span>
+												<span style="width:98px;text-align: right;">{{$v->time}}</span>
+											</li>
+										@endforeach
 									</ul>
 								</div>
 							</div>

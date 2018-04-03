@@ -10,6 +10,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Illuminate\Support\MessageBag;
 
 class ProfessionController extends Controller
 {
@@ -113,11 +114,6 @@ class ProfessionController extends Controller
                     'regex' => '请输入正确的专业名称，必须为汉字',
                     'required'=>'请输入专业名称'
                 ]);
-//            $form->text('grade', '专业评分')
-//                ->rules('required|regex:/^\d+\.(\d{1})$/',[
-//                    'regex' => '请输入正确的专业评分，如：9.8',
-//                    'required'=>'请输入专业评分'
-//                ])->placeholder('请输入专业评分，格式小于10的一位小数，如9.8');
             $form->text('sort', '专业权重')
                 ->rules('required|regex:/^\d+$/',[
                     'regex' => '请输入正确的专业权重，如：3',
@@ -134,6 +130,52 @@ class ProfessionController extends Controller
                 ->rules('required',[
                     'required' => '请输入专业简介',
                 ]);
+            $form->divide();
+            $form->html('', '以下为该专业考试设置：');
+            $form->text('exam_time', '考试时间')
+                ->rules('required|integer',[
+                    'integer' => '请输入正确的考试时间，必须为整数',
+                    'required'=>'请输入专业名称'
+                ])->placeholder('请输入考试时间，整数，单位为分钟');
+            $form->text('exam_single', '单选题数量')
+                ->rules('required|integer',[
+                'integer' => '请输入正确的单选题数量，必须为整数',
+                'required'=>'请输入单选题数量'
+            ]);
+            $form->text('single_value', '单选题分数')
+                ->rules('required|integer',[
+                    'integer' => '请输入正确的单选题分数，必须为整数',
+                    'required'=>'请输入单选题分数'
+                ]);
+            $form->text('exam_choose', '多选题数量')
+                ->rules('required|integer',[
+                    'integer' => '请输入正确的多选题数量，必须为整数',
+                    'required'=>'请输入多选题数量'
+                ]);
+            $form->text('choose_value', '多选题分数')
+                ->rules('required|integer',[
+                    'integer' => '请输入正确的多选题分数，必须为整数',
+                    'required'=>'请输入多选题分数'
+                ]);
+            $form->text('judge_num', '判断题数量')
+                ->rules('required|integer',[
+                    'integer' => '请输入正确的判断题数量，必须为整数',
+                    'required'=>'请输入判断题数量'
+                ]);
+            $form->text('judge_value', '判断题分数')
+                ->rules('required|integer',[
+                    'integer' => '请输入正确的判断题分数，必须为整数',
+                    'required'=>'请输入判断题分数'
+                ]);
+            $form->saving(function(Form $form){
+                if(($form->single_value*$form->exam_single+$form->exam_choose*$form->choose_value+$form->judge_num*$form->judge_value)!==100){
+                    $error = new MessageBag([
+                        'title'   => '信息',
+                        'message' => '所有题目的分数之和必须为100！',
+                    ]);
+                    return back()->with(compact('error'));
+                }
+            });
         });
     }
 }

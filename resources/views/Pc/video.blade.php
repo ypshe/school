@@ -12,16 +12,27 @@
 		<title>视频播放</title>
 		<link rel="stylesheet" href="/Pc/css/base.css" />
 		<link rel="stylesheet" href="/Pc/css/index.css" />
+		<link rel="stylesheet" href="{{ URL::asset('/Pc/css/base_start.css') }}" />
+		<style>
+			.zhe{
+				z-index: 9999;
+			}
+			strong{
+				color:rgb(48,178,107)
+			}
+		</style>
 	</head>
 
 	<body>
 		<div class="videobox">
-			<div class="videoboxtop">
+			<div class="videoboxtop" style="background:rgb(20,24,30)">
 				<div class="videoboxtople">
-					<a href="{{url('/studyDesc/'.$study->id)}}">
-						<img src="/Pc/img/fanhui.png">
-						<b>{{$study->name}}</b>
-						<span>{{$video->section+1}}-{{$video->sort}}{{$video->name}}</span>
+					<a href="#" style="cursor:default">
+						<img style="cursor:pointer" onclick="location.href='{{url('/studyDesc/'.$study->id)}}'" src="/Pc/img/fanhui.png">
+						<b style="cursor:pointer" onclick="location.href='{{url('/studyDesc/'.$study->id)}}'">{{$study->name}}</b>
+						<span>{{$video->section+1}}-{{$video->sort}}{{$video->name}}
+							丨总学时 : <strong>{{$study->video_num}}</strong> 已完成 : <strong>{{$study_time_count->num}}</strong> 有效时间<red style="color:#e70a2e">（以此时间为准，快进不计时）：<time id="stayTime"><z id="mintue">00</z>:<z id="second">00</z></time></red> 备注：只有全部观看完该视频才能计入学时，快进无效。
+						</span>
 					</a>
 				</div>
 				<div class="videoboxtopri">
@@ -106,7 +117,10 @@
 				<div class="bofang">
 					<img src="/Pc/img/bofang.png">
 				</div>
-				<video style="width:100%;height:95%;" id="video" controls="controls">
+				<div class="zhedangjindu">
+					
+				</div>
+				<video style="width:100%;height:95%;" id="video" controls="controls" poster="{{img_local($video->url)}}" loop="loop" x-webkit-airplay="true" webkit-playsinline="true">
 
 					<source src="{{img_local($video->url)}}" type="video/ogg" />
 					<source src="{{img_local($video->url)}}" type="video/mp4" />
@@ -149,74 +163,111 @@
 		<script type="text/javascript" src="/Pc/js/jquery.SuperSlide.2.1.1.js"></script>
 		<script type="text/javascript" src="/Pc/js/base.js"></script>
 		<script>
-			@if($question)
-				function playPause() {
-					var myVideo = $(".video").children("video")[0];
-					if(myVideo.paused) {
-						myVideo.play(); //视频播放
-						setTimeout(function() {
-							$(".wenti").show();
-							$(".zhe").show();
-							myVideo.pause(); //视频停止
-						}, {{($video->time/2)*1000}});
-						$("#queding").click(function() {
-							if($("input[name='probrem']:checked").val()=='{{$question->true}}'){
-								$("#zhengque").show();
-							}else{
-								if(1){
-									$.ajax({
-										type: 'POST',
-										url: '/ajax/userError',
-										data: {eid:{{$question->id}},error:$("input[name='probrem']:checked").val()},
-										dataType: "json"
-									});
-								}
-								$("#cuowu").show();
-							}
-							myVideo.pause(); //视频停止
-						});
-						$(".jixu").click(function(){
-							$.ajax({
-								type: 'POST',
-								url: '/ajax/userStudy',
-								data: {vid:{{$video->id}},res:0},
-								dataType: "json",
-								success:function(){
-									$(".wenti").hide();
-									$("#zhengque").hide();
-									$("#cuowu").hide();
-									$(".zhe").hide();
-									myVideo.play();
-								}
-							});
-						});
-						$(".video").find(".bofang").hide();
-					} else {
-						myVideo.pause(); //视频停止
-						$(".video").find(".bofang").show();
+            var myVideo = $(".video").children("video")[0];
+            var stayTime=setInterval(stayTimeFunc,1000);
+            function stayTimeFunc(){
+                if(!myVideo.paused) {
+                    $(".video").find(".bofang").hide();
+                    var time ={{$video->time}};
+                    var min = parseInt($('#mintue').html());
+                    var sec = parseInt($('#second').html());
+                    if(min*60+sec<time) {
+                        if (sec === 59) {
+                            min += 1;
+                            sec = 0;
+                        } else {
+                            sec += 1;
+                        }
+						@if($question)
+                        if((min*60+sec)===parseInt(time/2)){
+                            $(".wenti").show();
+                            $(".zhe").show();
+                            myVideo.pause(); //视频停止
+                            exitFullscreen();//退出全屏
+                            $(".wenti").attr('is_click','true');
+                        }
+                        $("#queding").click(function() {
+                            if($("input[name='probrem']:checked").val()=='{{$question->true}}'){
+                                $("#zhengque").show();
+                            }else if($(".wentib ul li").hasClass("on")){
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/ajax/userError',
+                                    data: {eid:{{$question->id}},error:$("input[name='probrem']:checked").val()},
+                                    dataType: "json"
+                                });
+                                $("#cuowu").show();
+                            }else{
+                                alert("请选择一个答案");
+                            }
+                            myVideo.pause(); //视频停止
+                        });
+                        $(".jixu").click(function(){
+                            $(".wenti").hide();
+                            $("#zhengque").hide();
+                            $("#cuowu").hide();
+                            $(".zhe").hide();
+                            myVideo.play();
+                            $(".wenti").attr('is_click','false');
+                        });
+                        $(".video").find(".bofang").hide();
+						@endif
+                        if (sec < 10) {
+                            sec = '0' + sec;
+                        }
+                        if (min < 10) {
+                            min = '0' + min;
+                        }
+                        $('#mintue').html(min);
+                        $('#second').html(sec);
+                    }else{
+                        $.ajax({
+                            type: 'POST',
+                            url: '/ajax/userStudy',
+                            data: {vid:{{$video->id}},res:1},
+                            dataType: "json"
+                        });
+                        exitFullscreen();//退出全屏
+                        $(".video").find(".bofang").show();
+                        $(".wenti").attr('is_click','false');
+                        clearInterval(stayTime);
 					}
-				}
-			@else
+                }
+			}
             function playPause() {
                 var myVideo = $(".video").children("video")[0];
                 if(myVideo.paused) {
-                    myVideo.play(); //视频播放
-                    $(".video").find(".bofang").hide();
+                    if($(".wenti").attr('is_click')!=='true') {
+                        myVideo.play(); //视频播放
+                    }
+					$(".video").find(".bofang").hide();
                 } else {
                     myVideo.pause(); //视频停止
                     $(".video").find(".bofang").show();
                 }
             }
-			@endif
-            /*视频结束或错误*/
-            $("#video").bind('error ended', function(){
-                $.ajax({
-                    type: 'POST',
-                    url: '/ajax/userStudy',
-                    data: {vid:{{$video->id}},res:1},
-                    dataType: "json"
-                });
-            });
+            //退出全屏方法
+           function exitFullscreen(){
+				if (document.exitFullscreen) {
+					document.exitFullscreen();
+				} else if (document.msExitFullscreen) {
+					document.msExitFullscreen();
+				} else if (document.mozCancelFullScreen) {
+					document.mozCancelFullScreen();
+				} else if(document.oRequestFullscreen){
+					document.oCancelFullScreen();
+				}else if (document.webkitExitFullscreen){
+					document.webkitExitFullscreen();
+				}else{
+					var docHtml = document.documentElement;
+					var docBody = document.body;
+					var videobox = document.getElementById('video');
+					docHtml.style.cssText = "";
+					docBody.style.cssText = "";
+					videobox.style.cssText = "";
+					document.IsFullScreen = false;
+				}
+			}
 		</script>
 	</body>
 

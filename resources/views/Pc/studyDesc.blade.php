@@ -19,7 +19,7 @@
 						<ul>
 							<li>
 								<span>学习人数</span>
-								<span>{{$study->study_num}}</span>
+								<span>{{$study->study_num}}人</span>
 							</li>
 							<li style="width: 107px">
 								<span>课程时长</span>
@@ -34,7 +34,7 @@
 				</div>
 				<div class="bantopri">
 					<div class="bantopritop">
-						<a class="goStudy" url=""@if($define===0){{url('/videoFirst/'.$study->id)}}@else{{url('/getStudy/'.$study->id)}}@endif">@if($define===0)开始学习@else立即报名@endif</a>
+						<a class="goStudy" href="@if($define===0){{url('/videoFirst/'.$study->id)}}@else{{url('/getStudy/'.$study->pid)}}@endif">@if($define===0)开始学习@else立即报名@endif</a>
 					</div>
 				</div>
 			</div>
@@ -61,10 +61,10 @@
 								@foreach($videos as $kk=>$vv)
 									@if($vv->section==$k)
 										<dd>
-											<a class="goStudy" url="@if($define===0){{url('/video/'.$vv->id)}}@else{{url('/getStudy/'.$study->id)}}@endif">
+											<a class="goStudy" href="@if($define===0){{url('/video/'.$vv->id)}}@else{{url('/getStudy/'.$study->pid)}}@endif">
 												<div class="mululist">
 													<i></i>
-													<span>{{$k+1}}-{{$vv->sort}} {{$vv->name}}（{{intval($vv->time/60)}}：{{intval($vv->time%60)}}） </span>
+													<span>{{$k+1}}-{{$vv->sort}} {{$vv->name}}（{{intval($vv->time/60)}}：{{intval($vv->time%60)}}）@if($define==0&&in_array($vv->id,$study_time_ids))<z style="color:green">（已学习）</z>@else<z style="color:red">（未学习）</z>@endif</span>
 													<b>@if($define===0)开始学习@else立即报名@endif</b>
 												</div>
 											</a>

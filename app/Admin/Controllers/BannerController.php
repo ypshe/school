@@ -75,7 +75,17 @@ class BannerController extends Controller
 
             $grid->id('ID')->sortable();
             $grid->place('广告类型')->display(function ($place) {
-                return $place =='banner'? '首页轮播图' : '微信公众号二维码';
+                switch($place){
+                    case "banner":
+                        return '电脑端首页轮播图';
+                        break;
+                    case 'wx':
+                        return '微信公众号二维码';
+                        break;
+                    case 'wap_banner':
+                        return '手机端首页轮播图';
+                        break;
+                }
             });
             $grid->sort('广告显示权重');
             $grid->src('广告图片')->image('',100,50);
@@ -94,9 +104,14 @@ class BannerController extends Controller
         return Admin::form(Banner::class, function (Form $form) {
 
             $form->display('id', 'ID');
-            $form->radio('place','广告类型')->options(['wx'=>'微信公众号二维码','banner'=>'首页轮播图'])->default('banner');
+            $form->radio('place','广告类型')->options(['wx'=>'微信公众号二维码','wap_banner'=>'手机端首页轮播图','banner'=>'电脑端首页轮播图'])->default('banner');
             $form->text('sort','广告显示权重')->placeholder('显示权重越大，该广告越靠前显示');
-            $form->image('src', '广告图片')->resize('1920','402');
+            $form->image('src', '广告图片');
+            $form->saving(function(Form $form){
+                if(!$form->sort){
+                    $form->sort=0;
+                }
+            });
         });
     }
 }

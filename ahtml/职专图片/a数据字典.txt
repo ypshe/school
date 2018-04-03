@@ -76,7 +76,7 @@ examLog:考题记录表
 	id:记录id，
 	uid:用户id,
 	time:考试时间,
-	file_token:文件记录token,(文件记录在storage/exam/$id.txt)
+	file:文件记录地址,(文件记录在storage/exam/$id.txt)
 	value:分数
 	}
 notices:培训通告表
@@ -155,14 +155,15 @@ files:上传文件表
 	created_at:上传时间，
 	updated_at：修改时间
 	}
-study_hours:学时表
+study_time:学时表
 	{
 	id:表id,
 	uid:用户id,
-	pid:课程id,
+	pid:专业id,
 	vid:视频id,
-	get_time:获取学时
-	created_at：创建时间
+	sid:课程id，
+	study_time:学时
+	join_time：学习时间
 	}
 asks:问题表
 	{
@@ -175,7 +176,7 @@ asks:问题表
 	sort:排序，（排序高展示在首页，为0则不展示）
 	returnMid：回复人id
 	}
-teacher:讲师表
+teachers:讲师表
 	{
 	id:讲师id,
 	name:讲师名（js校验2-4个中文）,

@@ -42,7 +42,7 @@ return [
     /*
      * Use `https`.
      */
-    'secure' => false,
+    'secure' => true,
 
     /*
      * Laravel-admin auth setting.
@@ -69,11 +69,13 @@ return [
     'upload' => [
 
         'disk' => 'admin',
+//        'disk' => 'qiniu',
 
         'directory' => [
             'image' => 'images',
             'file'  => 'files',
         ],
+//        'host' => 'p6dutmhnt.bkt.clouddn.com/',
     ],
 
     /*

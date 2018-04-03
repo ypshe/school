@@ -13,7 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        'ajax/*',
+        'ajax/*','wechat'
     ];
     public function handle($request, \Closure $next)
     {

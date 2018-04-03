@@ -9,8 +9,9 @@
 		<meta name="author" content="" />
 		<meta name="robots" content="" />
 		<title>注册</title>
-		<link rel="stylesheet" href="/Pc/css/base.css/" />
-		<link rel="stylesheet" href="/Pc/css/zhaohuimima.css/" />
+		<link rel="stylesheet" href="/Pc/css/base.css" />
+		<link rel="stylesheet" href="/Pc/css/base_start.css" />
+		<link rel="stylesheet" href="/Pc/css/zhaohuimima.css" />
         <script type="text/javascript" src="/Pc/js/jquery-1.9.1.min.js" ></script>
         <script type="text/javascript" src="/Pc/js/jquery.SuperSlide.2.1.1.js" ></script>
         <script type="text/javascript" src="/Pc/js/base.js"></script>
@@ -50,7 +51,7 @@
                                 {{ $errors->first('captcha') }}
                             @endif
                         </span>
-						<dd>
+						<dd style="-webkit-margin-start:0px">
                             <img  id="changeImg" src="{{captcha_src()}}">
                             <script>
                                 $('#changeImg').click(function(){

@@ -55,6 +55,10 @@ class LoginController extends Controller
             'cardId.alpha_num'=>'请输入正确格式的身份证号',
             'captcha.captcha'=>'验证码错误',
             'cardId.exists'=>'身份证号不存在',
+            'password.required'=>'请输入密码',
+            'password.confirmed'=>'两次输入密码不同',
+            'password.min'=>'密码最小长度为6',
+            'password.max'=>'密码最大长度为18',
         ]);
         $error=0;
         if ($validator->fails()){
@@ -63,6 +67,8 @@ class LoginController extends Controller
             if (!Auth::attempt(['cardId' => $request->cardId, 'password' => $request->password],$request->remember)) {
                 $validator->errors()->add('password', '密码错误');
                 $error=1;
+            }else{
+                return redirect()->back();
             }
         }
         if($error){

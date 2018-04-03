@@ -19,7 +19,6 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
-        \App\Http\Middleware\Video::class,
     ];
 
     /**
@@ -42,9 +41,6 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
-        'video'=>[
-            \App\Http\Middleware\Video::class,
-        ]
     ];
 
     /**
@@ -61,5 +57,8 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'authWap'=> \Modules\Mobile\Http\Middleware\authWap::class,
+        'video'=> \App\Http\Middleware\Video::class,
+        'wechat.oauth' => \Overtrue\LaravelWeChat\Middleware\OAuthAuthenticate::class,
     ];
 }

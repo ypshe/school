@@ -10,12 +10,16 @@
         "encore/laravel-admin": "^1.5",
         "fideloper/proxy": "~3.3",
         "intervention/image": "^2.4",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "maatwebsite/excel": "2.*",
         "mews/captcha": "^2.1",
         "nwidart/laravel-modules": "^2.7",
-        "overtrue/wechat": "~4.0"
+        "overtrue/laravel-wechat": "^4.0",
+        "peinhu/aetherupload-laravel": "^1.0",
+        "predis/predis": "^1.1",
+        "zgldh/qiniu-laravel-storage": "^0.9.2"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
@@ -34,7 +38,7 @@
             "Modules\\": "Modules/"
         },
         "files": [
-            "app/libary/FFmpeg.php"
+            "app/Libary/FFmpeg.php"
         ]
     },
     "autoload-dev": {

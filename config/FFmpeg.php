@@ -7,5 +7,5 @@
  */
 return [
     'window'=>'F:/ffmpeg/bin/ffmpeg -i "%s" 2>&1',
-    'linux'=>'/home/ffmpeg/bin/ffmpeg -i "%s" 2>&1',
+    'linux'=>'/ffmpeg-3.4.1/ffmpeg -i "%s" 2>&1',
 ];

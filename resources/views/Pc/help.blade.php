@@ -1,52 +1,62 @@
 @extends('layout')
 @section('content')
-		<!--主体部分-->
-		<div class="main">
-			<!--面包屑导航-->
-			<div class="mianbao">
-				<a href="{{url('/')}}">首页</a>
-				<span>></span>
-				<a href="{{url('/help/1')}}">帮助中心</a>
-			</div>
-			<!--面包屑导航-->
-			<div class="gerenbox">
-				<div class="gerenbo bangzhu">
-					<div class="gerenbole" style="min-height: 847px;">
-						<dl>
-							<dd>
-								<a href="{{url('/help/1')}}">
-									<b></b>
-									<span>培训流程</span>
-									<i></i>
-								</a>
-								<a href="{{url('/help/2')}}">
-									<b class="cao"></b>
-									<span>操作演示</span>
-									<i></i>
-								</a>
-								<a href="{{url('/help/3')}}">
-									<b class="peixun"></b>
-									<span>培训须知</span>
-									<i></i>
-								</a>
-								<a href="{{url('/help/4')}}">
-									<b class="lianxii"></b>
-									<span>联系我们</span>
-									<i></i>
-								</a>
-							</dd>
-						</dl>
-					</div>
-					<div class="gerenbori bangzhuri" style="min-height: 847px;">
-						@if($type==4)
+	<script src = '/packages/ueditor/ueditor.parse.js'></script>
+	<!--主体部分-->
+	<div class="main">
+		<!--面包屑导航-->
+		<div class="mianbao">
+			<a href="{{url('/')}}">首页</a>
+			<span>></span>
+			<a href="{{url('/help/1')}}">帮助中心</a>
+		</div>
+		<style>
+			img{
+				display: inline;
+			}
+			p{
+				font-style:normal;
+				font-weight:normal;
+			}
+		</style>
+		<!--面包屑导航-->
+		<div class="gerenbox">
+			<div class="gerenbo bangzhu">
+				<div class="gerenbole" style="min-height: 847px;">
+					<dl>
+						<dd>
+							<a href="{{url('/help/1')}}"  @if($type==1)class="on"@endif>
+								<b></b>
+								<span>培训流程</span>
+								<i></i>
+							</a>
+							<a href="{{url('/help/2')}}"  @if($type==2)class="on"@endif>
+								<b class="cao"></b>
+								<span>操作演示</span>
+								<i></i>
+							</a>
+							<a href="{{url('/help/3')}}"  @if($type==3)class="on"@endif>
+								<b class="peixun"></b>
+								<span>培训须知</span>
+								<i></i>
+							</a>
+							<a href="{{url('/help/4')}}"  @if($type==4)class="on"@endif>
+								<b class="lianxii"></b>
+								<span>联系我们</span>
+								<i></i>
+							</a>
+						</dd>
+					</dl>
+				</div>
+				<div class="gerenbori bangzhuri" style="min-height: 847px;">
+					@if($type==4)
 						<div class="title">
 							<h2>联系我们</h2>
 						</div>
 						<div class="lianximo">
 							<div class="lianximole">
 								<h3>河南省长垣县职业技术学校</h3>
-								<span>电话：000000000</span>
-								<span>地址：河南省长垣县城东一公里长孟公路南侧</span>
+								<span>电话：{{config('app.phone')}}</span>
+								<span>地址：{{config('app.school')}}</span>
 							</div>
 							<div class="lianximori">
 								<img src="{{img_local($wx->src)}}">
@@ -56,23 +66,33 @@
 						<div class="lianxibob">
 							<div id="map"></div>
 						</div>
-						@elseif($type==1)
-							<div class="title">
-								<h2>培训流程</h2>
-							</div>
-						@elseif($type==2)
-							<div class="title">
-								<h2>操作演示</h2>
-							</div>
-						@elseif($type==3)
-							<div class="title">
-								<h2>培训须知</h2>
-							</div>
-						@endif
-					</div>
+					@elseif($type==1)
+						<div class="title">
+							<h2>培训流程</h2>
+						</div>
+						<div class="showData">
+							{!! $data?$data->content:'' !!}
+						</div>
+					@elseif($type==2)
+						<div class="title">
+							<h2>操作演示</h2>
+						</div>
+						<div class="showData">
+							{!! $data?$data->content:'' !!}
+						</div>
+					@elseif($type==3)
+						<div class="title">
+							<h2>培训须知</h2>
+						</div>
+						<div class="showData">
+							{!! $data?$data->content:'' !!}
+						</div>
+					@endif
 				</div>
 			</div>
 		</div>
+	</div>
+	@if($type==4)
 		<script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp"></script>
 		<script>
             init();
@@ -93,17 +113,18 @@
                     map: map,
                     content:'河南省长垣县职业技术学校'
                 });
-//                var anchor = new qq.maps.Point(0, 39),
-//                    size = new qq.maps.Size(42, 68),
-//                    origin = new qq.maps.Point(0, 0),
-//                    icon = new qq.maps.MarkerImage(
-//                        "/doc_v2/img/nilt.png",
-//                        size,
-//                        origin,
-//                        anchor
-//                    );
-//                marker.setIcon(icon);
             }
 		</script>
-		<!--主体部分-->
-		@endsection
+	@endif
+
+	@if($type!==4)
+		<script>
+            $(function(){
+                $('.showData').css('padding','5px');
+                uParse('.showData',{
+                    rootPath: '/packages/ueditor'
+                });
+            });
+		</script>
+	@endif
+@endsection

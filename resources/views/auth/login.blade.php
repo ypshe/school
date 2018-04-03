@@ -10,6 +10,7 @@
 		<meta name="robots" content="" />
 		<title>登录</title>
 		<link rel="stylesheet" href="/Pc/css/base.css" />
+		<link rel="stylesheet" href="/Pc/css/base_start.css" />
 		<link rel="stylesheet" href="/Pc/css/zhaohuimima.css" />
 		<script type="text/javascript" src="/Pc/js/jquery-1.9.1.min.js" ></script>
 		<script type="text/javascript" src="/Pc/js/jquery.SuperSlide.2.1.1.js" ></script>
@@ -76,8 +77,8 @@
 					<input type="button" value="登录"/>
 				</div>
 				<div class="wj">
-					<a href="">忘记密码?</a>
-					<a class="go" href="javascript:;">去注册</a>
+					<a href="/password/reset">忘记密码?</a>
+					<a class="go" href="{{url('/register')}}">去注册</a>
 				</div>
 			</form>
 		</div>

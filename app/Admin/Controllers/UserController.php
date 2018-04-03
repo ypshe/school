@@ -67,16 +67,13 @@ class UserController extends Controller
     {
         return Admin::grid(User::class, function(Grid $grid){
             $grid->filter(function($filter){
-
                 // 去掉默认的id过滤器
                 $filter->disableIdFilter();
-
                 // 在这里添加字段过滤器
                 $filter->like('name', '姓名');
                 $filter->like('sex', '性别');
                 $filter->like('political', '政治面貌');
                 $filter->like('nationality', '民族');
-
             });
             $grid->id('ID')->sortable();
             $grid->column('name','用户名');
@@ -98,13 +95,14 @@ class UserController extends Controller
             });
             $grid->created_at('创建时间');
             $grid->updated_at('修改时间');
-            $grid->actions(function ($actions) {
-                $actions->disableDelete();
-            });
             $grid->tools(function ($tools) {
                 $tools->batch(function ($batch) {
                     $batch->disableDelete();
                 });
+            });
+            $grid->actions(function ($actions) {
+                $actions->disableDelete();
+                $actions->prepend('<a href="'.url('admin/examLog?uid='.$actions->getKey()).'"><i class="fa fa-eye"></i>查看学生成绩</a>');
             });
         });
     }
@@ -162,7 +160,6 @@ class UserController extends Controller
                 ->rules('regex:/^([\xe4-\xe9][\x80-\xbf]{2}){1,9}$/',[
                 'regex' => '请输入正确的民族',
             ]);
-//            $form->hidden('small_pic');
             $form->password('password', '密码')->placeholder('请设置学生登录密码，6-12位字符')
                 ->rules('confirmed|required',[
                     'confirmed'=>'两次输入密码不相同',

@@ -1,7 +1,16 @@
 <?php
 
 return [
-    'imgDir'=>'../storage/uploads/',
+    //学校手机号
+    'phone'=>'0373－8814541',
+
+    'imgDir'=>'/storage/app/aetherupload/',
+    //学校地址
+    'school'=>'河南省长垣县城东一公里长孟公路南侧',
+    //备案号
+    'web_num'=>env('WEB_NUM',''),
+    //公安备案号
+    'police_num'=>'京公网安备 11011202001160号',
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -180,6 +189,10 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
+        Overtrue\LaravelWeChat\ServiceProvider::class,
+        zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
+        AetherUpload\AetherUploadServiceProvider::class,
     ],
 
     /*
@@ -231,6 +244,8 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        'Agent' => Jenssegers\Agent\AgentServiceProvider::class,
+        'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
 
     ],
 

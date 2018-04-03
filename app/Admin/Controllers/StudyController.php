@@ -85,7 +85,7 @@ class StudyController extends Controller
             });
             $grid->id('ID')->sortable();
             $grid->name('课程名称');
-            $grid->pid('课程名称')->display(function($pid) {
+            $grid->pid('所属专业名称')->display(function($pid) {
                 return Profession::find($pid)->name;
             });
             $grid->tid('授课教师')->display(function($tid) {
@@ -145,7 +145,7 @@ class StudyController extends Controller
                         'required' => '请输入课程章节',
                     ])->placeholder('请输入课程章节,用中文逗号隔开,输入顺序为章节顺序');
             }
-            $form->image('pic', '课程封面图')->resize('262','161');
+            $form->image('pic', '课程封面图');
             $form->textarea('desc', '课程简介')
                 ->rules('required',[
                     'required' => '请输入课程简介',

@@ -10,7 +10,7 @@ define('LARAVEL_START', microtime(true));
 
 
 function img_local($dir){
-    return url(config('app.imgDir').$dir);
+    return env('APP_URL').config('app.imgDir').$dir;
 }
 
 /*

@@ -10,8 +10,10 @@
 		<meta name="robots" content="" />
 		<title>密码找回-填写邮箱</title>
 		<link rel="stylesheet" href="/Pc/css/base.css" />
+		<link rel="stylesheet" href="/Pc/css/base_start.css" />
 		<link rel="stylesheet" href="/Pc/css/zhaohuimima.css" />
 		<script type="text/javascript" src="/Pc/js/jquery-1.9.1.min.js" ></script>
+		<script type="text/javascript" src="/vendor/layer/layer.js" ></script>
 		<script>
             var yx = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
             var youxiang;
@@ -66,21 +68,30 @@
 					<dl>
 					<dt>邮箱：</dt>
 					<dd>
-						<input type="text" name="email" placeholder="输入邮箱" />
-						<span></span>
+						<input id="email" type="email" class="form-control" placeholder="请输入邮箱" name="email" value="{{ old('email') }}" required>
+						@if ($errors->has('email'))
+							<span>
+								<strong>{{ $errors->first('email') }}</strong>
+							</span>
+						@endif
 					</dd>
 				</dl>
 				<div class="btn anniu">
 					<a onclick="submitForm()" style="border:none;margin-top:0;color:#ffffff">下一步</a>
-					<script>
-						function submitForm(){
-						    $('#formEmail').submit();
-						}
-					</script>
 				</div>
+				<script>
+					function submitForm(){
+						$('#formEmail').submit();
+					}
+				</script>
 				</form>
 			</div>
 		</div>
+        @if (session('status'))
+            <script>
+                layer.msg('邮件已发送，请登录邮箱进行下一步操作！');
+            </script>
+        @endif
 		<div class="footers">
 			Copyright © 2018-2019 , All Rights Reserved 长垣职业中等专业学校继续教育培训平台  版权所有
 		</div>

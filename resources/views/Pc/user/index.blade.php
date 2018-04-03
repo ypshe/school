@@ -9,96 +9,12 @@
 				<a href="{{url('/')}}">首页</a>
 				<span>></span>
 				<a href="{{url('/user')}}">个人中心</a>
+				<span>></span>
+				<a href="{{url('/user/index')}}">个人资料</a>
 			</div>
 			<!--面包屑导航-->
 			<div class="gerenbox">
-				<div class="gerentop">
-					<div class="gerentouxiang">
-						<a href="{{url('/user')}}">
-							<img src="{{img_local($user->pic)}}">
-						</a>
-					</div>
-					<span>{{$user->name}}</span>
-				</div>
-				<div class="gerenbo">
-					<div class="gerenbole">
-						<dl>
-							<dt>
-								<i>
-									<img src="/Pc/img/icongeren.png">
-								</i>
-								<span>学习中心</span>
-							</dt>
-							<dd>
-								<a href="">
-									<span>在线学习</span>
-									<i></i>
-								</a>
-								<a href="">
-									<span>在线练习</span>
-									<i></i>
-								</a>
-								<a href="">
-									<span>在线考试</span>
-									<i></i>
-								</a>
-								<a href="{{url('/user/errorExam')}}">
-									<span>错题库</span>
-									<i></i>
-								</a>
-								<a href="">
-									<span>考核情况</span>
-									<i></i>
-								</a>
-								<a href="">
-									<span>在线留言</span>
-									<i></i>
-								</a>
-								<a href="">
-									<span>资料下载</span>
-									<i></i>
-								</a>
-							</dd>
-						</dl>
-						<dl>
-							<dt>
-								<i>
-									<img src="/Pc/img/icongeren02.png">
-								</i>
-								<span>个人中心</span>
-							</dt>
-							<dd>
-								<a class="on" href="">
-									<span>个人资料</span>
-									<i></i>
-								</a>
-								<a href="">
-									<span>订单管理</span>
-									<i></i>
-								</a>
-								<a href="">
-									<span>教育档案</span>
-									<i></i>
-								</a>
-							</dd>
-						</dl>
-						<dl>
-							<dt>
-								<i>
-									<img src="/Pc/img/icongeren03.png">
-								</i>
-								<span>客服中心</span>
-							</dt>
-							<dd class="kefu">
-								<a>
-									<span>服务热线</span>
-									<b>400-2564-2564</b>
-									<img src="/Pc/img/erweima02.jpg">
-									<span class="sao">扫一扫<br>手机也能看</span>
-								</a>
-							</dd>
-						</dl>
-					</div>
+					@include('user_public')
 					<div class="gerenbori">
 						<h2>个人资料</h2>
 						<div class="lianxi">
@@ -116,7 +32,7 @@
 										<dt style="margin-top:17px;">头像：</dt>
 										<dd class="z_photo upimg-div clear">
 											<div class="touxbox">
-												<img src="{{img_local($user->pic)}}">
+												<img src="@if($user->pic){{img_local($user->pic)}}@else /Pc/img/touxiang.png @endif">
 											</div>
 											<div class="xiugai z_file fl">
 												<label>
@@ -177,6 +93,12 @@
 										</dd>
 									</dl>
 									<dl>
+										<dt>邮箱：</dt>
+										<dd class="inputs">
+											<input type="text" name="email" id="email" value="{{old('email',$user->email)}}" />
+										</dd>
+									</dl>
+									<dl>
 										<dt>籍贯：</dt>
 										<dd class="selects" id="demo1">
 											<select id="where_p" name="where_p">
@@ -216,7 +138,7 @@
 										</dd>
 									</dl>
 									<script>
-                                        function getAddr(obj,pid,select){
+                                        function getAddr(obj,pid,select,status=0){
 											$.ajax({
 												url:'/ajax/addr?q='+pid,
 												type:'get',
@@ -226,6 +148,9 @@
 												        str+= '<option '+(select===this.id?'selected="selected"':' ')+' value="'+this.id+'">'+this.name+'</option>'
 													});
 												    obj.html(str);
+												    if(status===1) {
+                                                        getAddr($('#home_a'), data[0].id, 0);
+                                                    }
 												}
 											});
                                         }
@@ -241,12 +166,15 @@
                                         $('#where_p').change(function(){
                                             getAddr($('#where_c'),$(this).val(),0);
                                         });
+                                        getAddr($('#where_c'),$('#where_p').val(),0);
                                         $('#where_c').change(function(){
                                             getAddr($('#where_a'),$(this).val(),0);
                                         });
+                                        getAddr($('#where_a'),$('#where_c'),0);
                                         $('#home_p').change(function(){
                                             getAddr($('#home_c'),$(this).val(),0);
                                         });
+                                        getAddr($('#home_c'),$('#home_p').val(),0,1);
                                         $('#home_c').change(function(){
                                             getAddr($('#home_a'),$(this).val(),0);
                                         });

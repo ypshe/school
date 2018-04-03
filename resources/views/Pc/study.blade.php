@@ -15,7 +15,7 @@
 					<h2>专业：</h2>
 					<div class="titletab">
 						@foreach($data['pro'] as $k=>$v)
-							<a @if(isset($pid)&&$pid==$v->id) class="on" @endif href="{{url('/study/'.$v->id)}}">
+							<a @if(isset($pid)&&$pid==$v->id) style="color:red" @endif href="{{url('/study/'.$v->id)}}">
 								{{$v->name}}
 							</a>
 						@endforeach
