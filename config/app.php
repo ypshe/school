@@ -193,6 +193,7 @@ return [
         Overtrue\LaravelWeChat\ServiceProvider::class,
         zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
         AetherUpload\AetherUploadServiceProvider::class,
+	Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
     ],
 
     /*
@@ -246,7 +247,7 @@ return [
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
         'Agent' => Jenssegers\Agent\AgentServiceProvider::class,
         'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
-
+	'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
     ],
 
 ];

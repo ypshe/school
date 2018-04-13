@@ -16,11 +16,16 @@ class authWap extends Middleware
         if (!Auth::check()) {
             if (strpos(Agent::getUserAgent(), 'MicroMessenger') !== false){
                 $user=session('wechat.oauth_user.default');
+                try {
+                    $user=app('wechat.official_account')->oauth->user();
+                    session(['wechat.oauth_user.default'=>$user]);
+                }catch (\Exception $e){
+
+                }
                 if(!$user){
                     $app = app('wechat.official_account');
-                    $response = $app->oauth->scopes(['default'])
+                    $response = $app->oauth->scopes(['snsapi_userinfo'])
                         ->redirect();
-                    $_SESSION['wechat_user']=$app->oauth->user();
                     return $response;
                 }else{
                     $userData=User::where('wx_openId',$user->id)->first();

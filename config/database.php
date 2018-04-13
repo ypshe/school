@@ -114,7 +114,11 @@ return [
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
-
+	'session'=>[
+		'host'=>'localhost',
+		'password'=>null,
+		'database'=>1
+	],
     ],
 
 ];

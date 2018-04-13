@@ -38,4 +38,13 @@ class Video extends Authenticatable
     protected $hidden = [
 
     ];
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($model) {
+            // 在这里添加其他逻辑
+            Study::whereId($model->sid)->decrement('video_num');
+        });
+    }
 }
