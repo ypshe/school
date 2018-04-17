@@ -27,7 +27,8 @@
 		<!--培训课程详情-->
 		<article style="padding-bottom: 12vw;width:100%;overflow-x: hidden;">
 			<div class="xqtop bgbai video" onclick="playPause()" style="width:100%">
-				<video width="100%" height="220" poster="{{img_local($video->url)}}" loop="loop" x-webkit-airplay="true" webkit-playsinline="true" id="video" controls="controls">
+				{{--<video x-webkit-airplay="allow"  playsinline="true" x5-video-player-type="h5" x5-video-orientation="portraint" width="100%" height="220"  poster="{{img_local($video->url)}}" loop="loop" x-webkit-airplay="true" webkit-playsinline="true" id="video" controls="controls">--}}
+				<video controls=""  x5-playsinline="" playsinline="" webkit-playsinline="" poster="" preload="auto" width="100%" height="220" id="video">
 					<source src="{{img_local($video->url)}}" type="video/ogg" />
 					<source src="{{img_local($video->url)}}" type="video/mp4" />
 					<source src="{{img_local($video->url)}}" type="video/webm" />
@@ -143,71 +144,71 @@
             	var useTime=0;
 			{{--@endif--}}
 //			stayTimeFunc();
-            function stayTimeFunc(){
-                if(!myVideo.paused||1) {
+            function stayTimeFunc() {
+                if (!myVideo.paused) {
                     $(".video").find(".bofang").hide();
                     var time ={{$video->time}};
-                    if(useTime<time){
+                    if (useTime < time) {
 						@if($question)
-							if(useTime===parseInt(time/2)){
-								{{--@if(strpos(\Request::path(),'/true')===false)--}}
-									{{--location.href=location.href+'/true';--}}
-								{{--@else--}}
-								myVideo.pause(); //视频停止
-								layer.open({
-									content: wenti,
-									shadeClose: false,
-									skin: 'footer'
-								});
-								myVideo.webkitExitFullScreen();
-								$("#queding").click(function() {
-									if ($("input[name='probrem']:checked").val() === '{{$question->true}}') {
-										layer.open({
-											content: zhengque,
-											shadeClose: false,
-											time: 2, //2秒后自动关闭
-											skin: 'footer'
-										});
-									} else {
-										$.ajax({
-											type: 'POST',
-											url: '/ajax/userError',
-											data: {eid:{{$question->id}}, error: $("input[name='probrem']:checked").val()},
-											dataType: "json"
-										});
-										layer.open({
-											content: cuowu,
-											shadeClose: false,
-											time: 2, //2秒后自动关闭
-											skin: 'footer'
-										});
-									}
-                                    setTimeout(askOver,2000);
-								});
-								$(".zhengque").click(function(){
-									$(".wenti").parents(".layui-m-layer").hide();
-									$("#zhengque").parents(".layui-m-layer").hide();
-									$("#cuowu").parents(".layui-m-layer").hide();
-									$(".wenti").attr('is_click','false');
-									myVideo.play();
-								});
-								{{--@endif--}}
-							}
+                        if (useTime === parseInt(time / 2)) {
+							{{--@if(strpos(\Request::path(),'/true')===false)--}}
+							{{--location.href=location.href+'/true';--}}
+							{{--@else--}}
+                            myVideo.pause(); //视频停止
+                            layer.open({
+                                content: wenti,
+                                shadeClose: false,
+                                skin: 'footer'
+                            });
+                            myVideo.webkitExitFullScreen();
+                            $("#queding").click(function () {
+                                if ($("input[name='probrem']:checked").val() === '{{$question->true}}') {
+                                    layer.open({
+                                        content: zhengque,
+                                        shadeClose: false,
+                                        time: 2, //2秒后自动关闭
+                                        skin: 'footer'
+                                    });
+                                } else {
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/ajax/userError',
+                                        data: {eid:{{$question->id}}, error: $("input[name='probrem']:checked").val()},
+                                        dataType: "json"
+                                    });
+                                    layer.open({
+                                        content: cuowu,
+                                        shadeClose: false,
+                                        time: 2, //2秒后自动关闭
+                                        skin: 'footer'
+                                    });
+                                }
+                                setTimeout(askOver, 2000);
+                            });
+                            $(".zhengque").click(function () {
+                                $(".wenti").parents(".layui-m-layer").hide();
+                                $("#zhengque").parents(".layui-m-layer").hide();
+                                $("#cuowu").parents(".layui-m-layer").hide();
+                                $(".wenti").attr('is_click', 'false');
+                                myVideo.play();
+                            });
+							{{--@endif--}}
+                        }
 						@endif
-						useTime+=1;
-                    }
-					}else{
+                            useTime += 1;
+                    } else {
                         $.ajax({
                             type: 'POST',
                             url: '/ajax/userStudy',
-                            data: {vid:{{$video->id}},res:1},
+                            data: {vid:{{$video->id}}, res: 1},
                             dataType: "json"
                         });
                         exitFullscreen();//退出全屏
-                        $(".wenti").attr('is_click','false');
+                        $(".wenti").attr('is_click', 'false');
                         clearInterval(stayTime);
-					}
-			}
+                    }
+                }
+            }
 			function askOver(){
                 $(".wenti").attr('is_click','false');
                 myVideo.play();
@@ -221,7 +222,6 @@
 			}
 			//退出全屏方法
            function exitFullscreen(){
-           	
 				if (document.exitFullscreen) {
 					document.exitFullscreen();
 				} else if (document.msExitFullscreen) {

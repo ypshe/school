@@ -120,8 +120,7 @@
 				<div class="zhedangjindu">
 					
 				</div>
-				<video style="width:100%;height:95%;" id="video" controls="controls" poster="{{img_local($video->url)}}" loop="loop" x-webkit-airplay="true" webkit-playsinline="true">
-
+				<video style="width:100%;height:95%;" id="video" controls="controls" poster="" preload="auto" x-webkit-airplay="true" webkit-playsinline="true">
 					<source src="{{img_local($video->url)}}" type="video/ogg" />
 					<source src="{{img_local($video->url)}}" type="video/mp4" />
 					<source src="{{img_local($video->url)}}" type="video/webm" />

@@ -45,6 +45,7 @@ class Video extends Authenticatable
         static::deleted(function ($model) {
             // 在这里添加其他逻辑
             Study::whereId($model->sid)->decrement('video_num');
+            Study::whereId($model->sid)->decrement('time',$model->time);
         });
     }
 }
