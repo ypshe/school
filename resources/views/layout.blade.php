@@ -92,7 +92,7 @@ $wx=\App\Admin\Model\Banner::where('place','wx')->orderBy('sort','desc')->first(
                                     <ul>
                                         @foreach($v['studies'] as $vv)
                                             <li>
-                                                <a href="">
+                                                <a href="/studyDesc/{{$vv->id}}">
                                                     <div class="allRightle">
                                                         <img src="{{img_local($vv->pic)}}">
                                                     </div>
@@ -129,17 +129,31 @@ $wx=\App\Admin\Model\Banner::where('place','wx')->orderBy('sort','desc')->first(
                                     </a>
                                 @endforeach
                             </div>
+                            {{--获取其他的推荐课程--}}
+                            <?php
+                                $study_other=[];
+                                foreach(array_slice($pros,10) as $v){
+                                    $study_other=array_merge($study_other,$v['studies']->toArray());
+                                }
+                                shuffle($study_other);
+                                shuffle($study_other);
+                                $study_other=array_slice($study_other,0,4);
+                            ?>
                             <ul>
-                                <li>
-                                    <a href="">
-                                        <div class="allRightle">
-                                            <img src="/Pc/img/img.jpg">
-                                        </div>
-                                        <div class="allRightri">
-                                            前端进阶：响应式开发与常用框架
-                                        </div>
-                                    </a>
-                                </li>
+                                @foreach($study_other as $v)
+                                    <li>
+                                        <a href="/studyDesc/{{$v['id']}}">
+                                            <div class="allRightle">
+                                                <img src="{{img_local($v['pic'])}}">
+                                            </div>
+                                            <div class="allRightri">
+                                                {{$v['name']}}
+                                                <br/><br/>
+                                                <color style="color:#999999">讲师：{{$v['tname']}}</color>
+                                            </div>
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                         <!--右边分类-->
