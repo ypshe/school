@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'authWap'=> \Modules\Mobile\Http\Middleware\authWap::class,
+        'authMobile'=> \Modules\Mobile\Http\Middleware\authMobile::class,
         'video'=> \App\Http\Middleware\Video::class,
         'wechat.oauth' => \Overtrue\LaravelWeChat\Middleware\OAuthAuthenticate::class,
     ];

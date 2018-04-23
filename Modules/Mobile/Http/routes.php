@@ -46,49 +46,54 @@ Route::group(['middleware' =>$middleware, 'prefix' => 'wap', 'namespace' => 'Mod
         Route::get('/work', 'WorkController@index');
         Route::get('/work/{id}', 'WorkController@desc')->where('id','[0-9]+');
         //获取学时
-        Route::get('/getStudyTime/{cardId?}', 'StudyController@getStudyTime')->where('cardId','[0-9]+');
-        Route::group(['prefix'=>'user'],function() {
-            //解除微信绑定
-            Route::get('/loseWx', 'UserController@loseWx');
-            //个人中心
-            Route::get('/', 'UserController@index');
-            //个人设置
-            Route::get('/set', 'UserController@set');
-            //个人资料
-            Route::get('/index', 'UserController@first');
-            //我要留言
-            Route::get('/ask', 'UserController@ask');
-            //修改密码
-            Route::get('/changePwd', 'UserController@changePwd');
-            //提交修改密码
-            Route::post('/submitPwd', 'UserController@submitPwd');
-            //资料库
-            Route::get('/file', 'UserController@file');
-            //在线学习
-            Route::get('/online_study', 'UserController@online_study');
-            //在线练习列表
-            Route::get('/online_test', 'UserController@online_test');
-            //练习历史
-            Route::get('/test_history', 'UserController@test_history');
-            //查看练习
-            Route::get('/seeTest/{eid}', 'UserController@seeTest')->where('eid','[0-9]+');
-            //在线练习试题
-            Route::get('/test/{eid}', 'UserController@test')->where('eid','[0-9]+');
-            //在线考试列表
-            Route::get('/online_exam', 'UserController@online_exam');
-            //考试历史
-            Route::get('/exam_history', 'UserController@exam_history');
-            //查看考试试卷
-            Route::get('/seeExam/{eid}', 'UserController@seeExam')->where('eid','[0-9]+');
-            //在线考试试题
-            Route::get('/exam/{eid}', 'UserController@exam')->where('eid','[0-9]+');
-            //教育档案
-            Route::get('/archive', 'UserController@archive');
-            //考核情况
-            Route::get('/res', 'UserController@res');
-            //错题库
-            Route::get('/errorExam/{type？}', 'UserController@errorExam')->where('type','[12]{1}');
-            Route::get('/delError/{type}/{id}', 'UserController@delErrorExam')->where('type','[12]{1}')->where('id','[0-9]+');
+        Route::get('/getStudyTime/{cardId}', 'StudyController@getStudyTime')->where('cardId','[0-9]+');
+        Route::group(['middleware' => 'authMobile'],function() {
+            //参加培训
+            Route::get('/getStudy/{pid?}', 'getStudyController@index')->where('pid', '[0-9]+');
+            Route::get('/confirmStudy/{pid}', 'getStudyController@confirm')->where('pid', '[0-9]+');
+            Route::group(['prefix' => 'user'], function () {
+                //解除微信绑定
+                Route::get('/loseWx', 'UserController@loseWx');
+                //个人中心
+                Route::get('/', 'UserController@index');
+                //个人设置
+                Route::get('/set', 'UserController@set');
+                //个人资料
+                Route::get('/index', 'UserController@first');
+                //我要留言
+                Route::get('/ask', 'UserController@ask');
+                //修改密码
+                Route::get('/changePwd', 'UserController@changePwd');
+                //提交修改密码
+                Route::post('/submitPwd', 'UserController@submitPwd');
+                //资料库
+                Route::get('/file', 'UserController@file');
+                //在线学习
+                Route::get('/online_study', 'UserController@online_study');
+                //在线练习列表
+                Route::get('/online_test', 'UserController@online_test');
+                //练习历史
+                Route::get('/test_history', 'UserController@test_history');
+                //查看练习
+                Route::get('/seeTest/{eid}', 'UserController@seeTest')->where('eid', '[0-9]+');
+                //在线练习试题
+                Route::get('/test/{eid}', 'UserController@test')->where('eid', '[0-9]+');
+                //在线考试列表
+                Route::get('/online_exam', 'UserController@online_exam');
+                //考试历史
+                Route::get('/exam_history', 'UserController@exam_history');
+                //查看考试试卷
+                Route::get('/seeExam/{eid}', 'UserController@seeExam')->where('eid', '[0-9]+');
+                //在线考试试题
+                Route::get('/exam/{eid}', 'UserController@exam')->where('eid', '[0-9]+');
+                //教育档案
+                Route::get('/archive', 'UserController@archive');
+                //考核情况
+                Route::get('/res', 'UserController@res');
+                //错题库
+                Route::get('/errorExam/{type？}', 'UserController@errorExam')->where('type', '[12]{1}');
+                Route::get('/delError/{type}/{id}', 'UserController@delErrorExam')->where('type', '[12]{1}')->where('id', '[0-9]+');
+            });
         });
         Route::group(['middleware' => 'video'],function() {
             //观看视频
@@ -100,9 +105,6 @@ Route::group(['middleware' =>$middleware, 'prefix' => 'wap', 'namespace' => 'Mod
             //视频学时计算
             Route::post('/ajax/userStudy', 'StudyController@userStudy');
         });
-        //参加培训
-        Route::get('/getStudy/{pid？}', 'getStudyController@index')->where('pid','[0-9]+');
-        Route::get('/confirmStudy/{pid}', 'getStudyController@confirm')->where('pid','[0-9]+');
     });
 });
 //ajax加载

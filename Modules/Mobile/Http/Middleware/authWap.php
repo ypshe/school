@@ -13,8 +13,8 @@ class authWap extends Middleware
 
     public function handle($request, Closure $next)
     {
-        if (!Auth::check()) {
-            if (strpos(Agent::getUserAgent(), 'MicroMessenger') !== false){
+        if (strpos(Agent::getUserAgent(), 'MicroMessenger') !== false){
+            if (!Auth::check()) {
                 $user=session('wechat.oauth_user.default');
                 try {
                     $user=app('wechat.official_account')->oauth->user();
@@ -41,8 +41,8 @@ class authWap extends Middleware
                     }
                 }
             }else {
-                    return response()
-                        ->view('Mobile.error', ['msg' => '请先登录！', 'type' => 'error', 'url' => '/wap/login'], 200);
+                return response()
+                    ->view('Mobile.error', ['msg' => '请先登录！', 'type' => 'error', 'url' => '/wap/login'], 200);
             }
         }
         return $next($request);
