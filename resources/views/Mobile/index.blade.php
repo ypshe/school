@@ -12,6 +12,11 @@
 		<link rel="stylesheet" href="mobile/iconfont/iconfont.css" />
 		<link rel="stylesheet" href="mobile/css/base.css" />
 		<link rel="stylesheet" href="mobile/css/swiper.min.css" />
+		<style>
+			.gonggao dl a dd .biaoti.biaoti{
+				height:10.3vw
+			}
+		</style>
 	</head>
 	<body>
 		<!--头部-->
